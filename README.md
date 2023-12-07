@@ -1,4 +1,4 @@
-# summative assignment:
+# Summative Assignment:
 
 ## Portfolio - 80%
 - group project - individual submission
