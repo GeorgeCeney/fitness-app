@@ -1,16 +1,18 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Calories from './pages/Calories/Calories';
 import Workouts from './pages/Workouts/Workouts';
 import RoutePlanner from './pages/Routes/RoutePlanner';
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
     <Router>
-      <Navbar/>
+      <Navbar />
         <div className='pages'>
           <Routes>
             <Route path="/" element={<Home />}/>
@@ -20,7 +22,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 
