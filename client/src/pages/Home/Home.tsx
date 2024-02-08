@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, CardMedia } from '@mui/material';
-import './Home.css';
 import HeroImage from '../../assets/hero-image.jpg'
+import './Home.css';
 
 const Home = () => {
     return (
