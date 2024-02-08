@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Home from './components/Home/Home';
-import Calories from './components/Calories/Calories';
-import Workouts from './components/Workouts/Workouts';
-import RoutePlanner from './components/RoutePlanner/RoutePlanner';
-
+import Navbar from './components/Navbar';
+import Home from './pages/Home/Home';
+import Calories from './pages/Calories/Calories';
+import Workouts from './pages/Workouts/Workouts';
+import RoutePlanner from './pages/Routes/RoutePlanner';
 
 function App() {
   return (
@@ -14,7 +13,7 @@ function App() {
       <Navbar/>
         <div className='pages'>
           <Routes>
-            <Route path="/home" element={<Home />}/>
+            <Route path="/" element={<Home />}/>
             <Route path="/calories" element={<Calories/>}/>
             <Route path="/workouts" element={<Workouts/>}/>
             <Route path="/routes" element={<RoutePlanner />}/>
