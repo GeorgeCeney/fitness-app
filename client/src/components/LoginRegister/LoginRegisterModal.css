@@ -1,0 +1,51 @@
+/* Background and text colors for the modal content */
+.modal-content {
+  background-color: var(--secondary-colour); /* Light Purple background */
+  color: var(--dark-colour); /* Dark color for text */
+  border: none;
+}
+
+/* Titles within the modal use the primary color for emphasis */
+.modal-title {
+  color: var(--primary-colour);
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: var(--primary-colour); /* Blue background for primary buttons */
+  border-color: var(--primary-colour); /* Blue border for primary buttons */
+}
+
+.btn-primary:hover {
+  background-color: darken(var(--primary-colour), 10%); /* Slightly darker blue on hover */
+  border-color: darken(var(--primary-colour), 10%);
+}
+
+/* Form input fields styling */
+.form-control {
+  border-color: var(--lightblue-colour); /* Light Blue border for inputs */
+}
+
+.form-control:focus {
+  border-color: var(--primary-colour); /* Blue border for focused input */
+  box-shadow: 0 0 0 0.2rem rgba(10, 106, 216, 0.25); /* Blue glow on focus */
+}
+
+/* Tab styling for login/register switch */
+.nav-tabs .nav-link.active {
+  border-color: var(--primary-colour) var(--primary-colour) var(--secondary-colour);
+  background-color: var(--secondary-colour);
+  color: var(--dark-colour);
+  
+}
+
+.nav-tabs .nav-link {
+  border-color: var(--primary-colour);
+  color: var(--dark-colour);
+}
+
+/* Alert messages styling */
+.alert-danger {
+  background-color: var(--light-blue-colour); /* Use light blue for danger alerts */
+  color: var(--dark-colour); /* Dark text for readability */
+}
