@@ -1,0 +1,30 @@
+.create-workout-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+  
+.form-label {
+  font-weight: 600;
+}
+  
+  /* Button styling */
+.btn-primary {
+  background-color: var(--primary-colour);
+  border-color: var(--primary-colour);
+}
+  
+.btn-primary:hover {
+  background-color: darken(var(--primary-colour), 10%);
+  border-color: darken(var(--primary-colour), 10%);
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+.row {
+  padding-top: 2vh;
+}
