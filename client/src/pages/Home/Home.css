@@ -1,37 +1,34 @@
 .card-img-top {
-  height: 200px; /* Set your desired height */
-  object-fit: cover; /* This ensures the image covers the area without distorting its aspect ratio */
-  width: 100%; /* This makes the image responsive */
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
 }
 
 .custom-card-img {
   height: 200px;
-  object-fit: contain; /* Ensures the entire image is visible */
+  object-fit: contain;
   width: 100%;
 }
 
 .custom-card-link {
-  color: inherit; /* Ensures text color is inherited and not overridden by link styles */
-  text-decoration: none; /* Removes underline from links */
+  color: inherit;
+  text-decoration: none;
 }
 
 .custom-card-link:hover {
-  text-decoration: none; /* Optional: Ensures no underline on hover */
+  text-decoration: none;
 }
 
-/* Initial state of the card */
-.card {
-  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out; /* Smooth transition for transform and border */
-  border: none; /* Assuming you want no border initially, as per your previous setup */
+.home-page-card {
+  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out;
+  border: none;
   padding-top: 1vh;
 }
 
-/* Hover state of the card */
-.card:hover {
-  transform: scale(1.05); /* Slightly increase the size */
-  border: 1px solid var(--dark-colour); /* Add a border on hover, change the color as desired */
+.home-page-card:hover {
+  transform: scale(1.05);
+  border: 1px solid var(--dark-colour);
 }
-
 
 .hero-section {
   background-size: cover;
