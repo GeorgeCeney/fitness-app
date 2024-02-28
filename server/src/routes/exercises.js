@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const options = {
   }
 };
 
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const response = await axios.request(options);
     res.json(response.data);

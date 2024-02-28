@@ -10,7 +10,9 @@ const Home = () => {
     return (
         <>
           <div className="hero-section" style={{ backgroundImage: `url(${HeroImage})` }}>
-            <h1 className="text-white">Your Fitness Starts Here</h1>
+            <h1 className="text-white">
+              Your Fitness Starts <span className="gradient-text">Here</span>
+            </h1>
           </div>
     
           <Container className="my-5">

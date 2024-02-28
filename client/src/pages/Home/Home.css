@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caramel&family=Inter:wght@100..900&display=swap');
+
 .card-img-top {
   height: 200px;
   object-fit: cover;
@@ -36,4 +38,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-section h1 {
+    font-family: "Caramel", cursive;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, blue, pink, blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline;
 }
