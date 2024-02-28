@@ -1,7 +1,9 @@
 .modal-content {
-  background-color: var(--secondary-colour); /* Light Purple background */
-  color: var(--dark-colour); /* Dark color for text */
+  background-color: var(--secondary-colour);
+  color: var(--dark-colour);
   border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .modal-title {
@@ -9,22 +11,22 @@
 }
 
 .btn-primary {
-  background-color: var(--primary-colour); /* Blue background for primary buttons */
-  border-color: var(--primary-colour); /* Blue border for primary buttons */
+  background-color: var(--primary-colour);
+  border-color: var(--primary-colour);
 }
 
 .btn-primary:hover {
-  background-color: darken(var(--primary-colour), 10%); /* Slightly darker blue on hover */
+  background-color: darken(var(--primary-colour), 10%);
   border-color: darken(var(--primary-colour), 10%);
 }
 
 .form-control {
-  border-color: var(--lightblue-colour); /* Light Blue border for inputs */
+  border-color: var(--light-blue-colour);
 }
 
 .form-control:focus {
-  border-color: var(--primary-colour); /* Blue border for focused input */
-  box-shadow: 0 0 0 0.2rem rgba(10, 106, 216, 0.25); /* Blue glow on focus */
+  border-color: var(--primary-colour);
+  box-shadow: 0 0 0 0.2rem rgba(10, 106, 216, 0.25);
 }
 
 .nav-tabs .nav-link.active {
@@ -39,6 +41,7 @@
 }
 
 .login-register-tabs .nav-tabs {
+  border-bottom: none;
   flex-direction: row !important;
 }
 
@@ -48,7 +51,6 @@
 }
 
 .alert-danger {
-  background-color: var(--light-blue-colour); 
+  background-color: var(--light-blue-colour);
   color: var(--dark-colour);
 }
-

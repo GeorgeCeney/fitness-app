@@ -1,27 +1,31 @@
-import { Form, Row, Col } from 'react-bootstrap';
+import React from 'react';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const ExerciseForm = ({ exericseTitle, sets, reps, weight, onSetsChange, onRepsChange, onWeightChange }) => {
+const ExerciseForm = ({ exerciseTitle, sets, reps, weight, onSetsChange, onRepsChange, onWeightChange, onRemove }) => {
   return (
     <>
-      <h5>{exericseTitle}</h5>
+      <h4>{exerciseTitle}</h4> {/* Display the exercise title */}
       <Row>
-        <Col md={4}>
-          <Form.Group controlId="sets">
+        <Col md={3}>
+          <Form.Group>
             <Form.Label>Sets</Form.Label>
-            <Form.Control type="number" placeholder="Number of sets" value={sets} onChange={onSetsChange} />
+            <Form.Control type="number" placeholder="Sets" value={sets} onChange={onSetsChange} />
           </Form.Group>
         </Col>
-        <Col md={4}>
-          <Form.Group controlId="reps">
+        <Col md={3}>
+          <Form.Group>
             <Form.Label>Reps</Form.Label>
-            <Form.Control type="number" placeholder="Number of reps" value={reps} onChange={onRepsChange} />
+            <Form.Control type="number" placeholder="Reps" value={reps} onChange={onRepsChange} />
           </Form.Group>
         </Col>
-        <Col md={4}>
-          <Form.Group controlId="weight">
-            <Form.Label>Weight (kg)</Form.Label>
-            <Form.Control type="number" placeholder="Weight used" value={weight} onChange={onWeightChange} />
+        <Col md={3}>
+          <Form.Group>
+            <Form.Label>Weight</Form.Label>
+            <Form.Control type="number" placeholder="Weight (kg)" value={weight} onChange={onWeightChange} />
           </Form.Group>
+        </Col>
+        <Col md={3} className="d-flex align-items-end">
+          <Button variant="danger" onClick={onRemove}>Remove</Button>
         </Col>
       </Row>
     </>
