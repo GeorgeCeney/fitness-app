@@ -17,7 +17,7 @@ const NavigationBar = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className='sticky-top'>
       <Container>
-        <Navbar.Brand as={NavLink} to="/">Your Brand</Navbar.Brand>
+        <Navbar.Brand as={NavLink} to="/">BAG Fitness</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
