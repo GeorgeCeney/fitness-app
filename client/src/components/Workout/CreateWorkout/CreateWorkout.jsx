@@ -101,26 +101,40 @@ const CreateWorkout = () => {
   return (
     <Container className="create-workout-container my-4">
       <Form onSubmit={handleSubmit}>
-        <Row>
-        <Col>
-            <Form.Group controlId="workoutName">
-              <Form.Label>Workout Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter workout name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="startTime">
-              <Form.Label>Start Time</Form.Label>
-              <DatePicker selected={startTime} onChange={date => setStartTime(date)} showTimeSelect dateFormat="Pp" className="form-control" />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="endTime">
-              <Form.Label>End Time</Form.Label>
-              <DatePicker selected={endTime} onChange={date => setEndTime(date)} showTimeSelect dateFormat="Pp" className="form-control" />
-            </Form.Group>
-          </Col>
-          <Col md={4}>
+        <Row className="mb-3">
+          <Form.Group controlId="workoutName" as={Col}>
+            <Form.Label>Workout Name</Form.Label>
+            <Form.Control type="text" placeholder="Enter workout name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group controlId="startTime" as={Col}>
+            <Form.Label>Start Time</Form.Label>
+            <DatePicker
+              selected={startTime}
+              onChange={date => setStartTime(date)}
+              showTimeSelect
+              dateFormat="Pp"
+              className="form-control d-block"
+              wrapperClassName="d-block w-100"
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group controlId="endTime" as={Col}>
+            <Form.Label>End Time</Form.Label>
+            <DatePicker
+              selected={endTime}
+              onChange={date => setEndTime(date)}
+              showTimeSelect
+              dateFormat="Pp"
+              className="form-control d-block"
+              wrapperClassName="d-block w-100"
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col}>
             <Form.Label>Exercise</Form.Label>
             <Select
               options={exerciseOptions}
@@ -129,8 +143,10 @@ const CreateWorkout = () => {
               placeholder="Select Exercise"
               isClearable
             />
-          </Col>
-          <Col md={2}>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Col>
             <Button onClick={handleAddExercise} disabled={!selectedExercise}>Add Exercise</Button>
           </Col>
         </Row>
@@ -138,7 +154,7 @@ const CreateWorkout = () => {
         {exercises.map((exercise, index) => (
             <ExerciseForm
               key={index}
-              exerciseTitle={exercise.label} // Assuming exercise object has a label property for the title
+              exerciseTitle={exercise.label}
               sets={exercise.sets}
               reps={exercise.reps}
               weight={exercise.weight}

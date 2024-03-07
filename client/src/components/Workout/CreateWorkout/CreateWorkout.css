@@ -1,23 +1,11 @@
-.modal-content {
-  background-color: var(--secondary-colour);
-  color: var(--dark-colour);
-  border: none;
-  border-radius: 0.5rem; /* Smooth corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.modal-title {
-  color: var(--primary-colour);
-}
-
 .btn-primary {
   background-color: var(--primary-colour);
   border-color: var(--primary-colour);
 }
 
 .btn-primary:hover {
-  background-color: darken(var(--primary-colour), 10%);
-  border-color: darken(var(--primary-colour), 10%);
+  background-color: #202530;
+  border-color: #202530;
 }
 
 .form-control {
@@ -29,28 +17,12 @@
   box-shadow: 0 0 0 0.2rem rgba(10, 106, 216, 0.25);
 }
 
-.nav-tabs .nav-link.active {
-  border-color: var(--primary-colour) var(--primary-colour) var(--secondary-colour);
-  background-color: var(--secondary-colour);
-  color: var(--dark-colour);
-}
-
-.login-register-tabs .nav-tabs .nav-item {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.login-register-tabs .nav-tabs {
-  border-bottom: none; /* Remove border bottom */
-  flex-direction: row !important;
-}
-
-.nav-tabs .nav-link {
-  border-color: var(--primary-colour);
-  color: var(--dark-colour);
-}
-
 .alert-danger {
   background-color: var(--lightblue-colour);
   color: var(--dark-colour);
+}
+
+.row {
+  padding-top: 2px;
+  padding-bottom: 4px;
 }

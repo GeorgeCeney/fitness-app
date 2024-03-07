@@ -1,7 +1,6 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import "./Home.css";
-import HeroImage from '../../assets/hero-image.jpg';
 import WorkoutsImage from '../../assets/workouts.jpg';
 import RoutesImage from '../../assets/routes.png';
 import CaloriesImage from '../../assets/calories.png';
@@ -9,9 +8,9 @@ import CaloriesImage from '../../assets/calories.png';
 const Home = () => {
     return (
         <>
-          <div className="hero-section" style={{ backgroundImage: `url(${HeroImage})` }}>
-            <h1 className="text-white">
-              Your Fitness Starts <span className="gradient-text">Here</span>
+          <div className="hero-section">
+            <h1>
+              Your Fitness Starts Here
             </h1>
           </div>
     
