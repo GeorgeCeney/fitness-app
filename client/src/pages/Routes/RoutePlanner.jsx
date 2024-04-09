@@ -9,9 +9,11 @@ const RoutePlanner = () => {
     setStartingPoint(event.target.value);
   };
 
+
   return (
     <div>
       <input type="text" value={startingPoint} onChange={handleInputChange} />
+      <input id="TESTER" type="button" />
       <Map startingPoint={startingPoint} setStartingPoint={setStartingPoint} />
     </div>
   );
