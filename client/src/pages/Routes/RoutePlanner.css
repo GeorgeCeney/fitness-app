@@ -1,0 +1,12 @@
+#ClearRouteButton {
+    background-color: #E4340B;
+}
+
+#ClearRouteButton:Hover {
+    background-color: #202530;
+    border-color: #202530;
+}
+
+#UndoRouteButton, #ClearRouteButton {
+    width: 100%;
+}

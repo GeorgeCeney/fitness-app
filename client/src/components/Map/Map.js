@@ -14,8 +14,10 @@ const Map = (props) => {
   const platform = new H.service.Platform({
     'apikey': 'da2TME2OhQPR19NeeogV8SmFqXsGDK6SXPuUEbt93hs'
   });
-
-
+  
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   function calcTotalDistance(distanceList) {
     var routeDistanceDiv = document.getElementById("RouteDistanceDiv")
 
@@ -32,6 +34,31 @@ const Map = (props) => {
       routeDistanceDiv.innerHTML = sum + "m";
     }
     return (sum)
+  }
+
+  async function capture(resultContainer, map, ui) {
+    console.log(route)
+    let sumLat = 0;
+    let sumLng = 0;
+    route.forEach((point) => {
+      sumLat += point.lat
+      sumLng += point.lng
+    })
+
+    map.setCenter({lat: (sumLat/route.length), lng: (sumLng/route.length)})
+    map.setZoom(15); // needs method
+
+    await sleep(3000)
+
+    map.capture(function(canvas) {
+      if (canvas) {
+        resultContainer.innerHTML = '';
+        resultContainer.appendChild(canvas);
+      } else {
+        // For example when map is in Panorama mode
+        resultContainer.innerHTML = 'Capturing is not supported';
+      }
+    }, [ui], 0, 0, 500, 500);
   }
 
   useEffect(() => {
@@ -79,33 +106,37 @@ const Map = (props) => {
       })
 
       saveRun.addEventListener("click", function (evt) {
+        var resultContainer = document.getElementById('panel2');
+        capture(resultContainer, map.current, ui);
+
+
         // REFERENCE: https://downhilltodowntown.com/how-to-calculate-your-caloric-burn-while-running/
         
-        var MET = 0 // Metabolic Equivalent of Task (MET) is a unit used to estimate the energy expenditure of various activities
-        let weight = document.getElementById("weightInput").value
-        let time = document.getElementById("timeInput").value
+      //   var MET = 0 // Metabolic Equivalent of Task (MET) is a unit used to estimate the energy expenditure of various activities
+      //   let weight = document.getElementById("weightInput").value
+      //   let time = document.getElementById("timeInput").value
 
-        let avgKmPerHour = (routeDistance / 1000) / (time / 60)
+      //   let avgKmPerHour = (routeDistance / 1000) / (time / 60)
 
-        const speedRanges = [4.0, 5.7, 8.0, 9.7, 11.3, 12.9, 14.5];
-        const mets = [0.5, 2, 4, 6, 8, 10, 11.5, 12.8];
+      //   const speedRanges = [4.0, 5.7, 8.0, 9.7, 11.3, 12.9, 14.5];
+      //   const mets = [0.5, 2, 4, 6, 8, 10, 11.5, 12.8];
         
-        for (let i = 0; i < speedRanges.length; i++) {
-            if (avgKmPerHour < speedRanges[i]) {
-                MET = mets[i];
-                break;
-            }
-        }
-        if (MET === undefined) {
-            MET = mets[mets.length - 1];
-        }
+      //   for (let i = 0; i < speedRanges.length; i++) {
+      //       if (avgKmPerHour < speedRanges[i]) {
+      //           MET = mets[i];
+      //           break;
+      //       }
+      //   }
+      //   if (MET === undefined) {
+      //       MET = mets[mets.length - 1];
+      //   }
 
-        // If avgKmPerHour is greater than or equal to the last speed range
-        var estCaloriesBurntDiv = document.getElementById("estCaloriesBurntDiv")
+      //   // If avgKmPerHour is greater than or equal to the last speed range
+      //   var estCaloriesBurntDiv = document.getElementById("estCaloriesBurntDiv")
         
-        // Calories Burned = MET x Body Weight (kg) x Duration of Running (hours)
-        let estCaloriesBurnt = MET * weight * (time / 60)
-        estCaloriesBurntDiv.innerHTML = routeDistance > 0 ? estCaloriesBurnt : 0
+      //   // Calories Burned = MET x Body Weight (kg) x Duration of Running (hours)
+      //   let estCaloriesBurnt = MET * weight * (time / 60)
+      //   estCaloriesBurntDiv.innerHTML = routeDistance > 0 ? estCaloriesBurnt : 0
       })
 
       
@@ -133,8 +164,8 @@ const Map = (props) => {
 
         // once there are more than two points, connect the route
         if (map.current && route.length > 1) {
-          const routingService = platform.getRoutingService(null, 8),
-            routeRequestParams = {
+          const pointToPoint = platform.getRoutingService(null, 8),
+            pointToPointRequestParams = {
               routingMode: 'fast',
               transportMode: 'pedestrian',
               origin: `${route[(route.length-2)].lat},${route[(route.length-2)].lng}`,
@@ -142,7 +173,7 @@ const Map = (props) => {
               return: 'polyline,turnByTurnActions,actions,instructions,travelSummary'
             };
     
-          routingService.calculateRoute(routeRequestParams,
+          pointToPoint.calculateRoute(pointToPointRequestParams,
             (result) => {
               if (result.routes.length) {
                 distances.push(result.routes[0].sections[0].travelSummary.length)
@@ -153,30 +184,6 @@ const Map = (props) => {
                   let polyline = new H.map.Polyline(linestring, { style: { lineWidth: 4 } });
                   map.current.addObject(polyline);
                   polylines.push(polyline)
-
-                  // testing new
-                  // var nodeOL = document.createElement('ol');
-                  // var routeInstructionsContainer = document.getElementById('panel');
-
-                  // nodeOL.style.fontSize = 'small';
-                  // nodeOL.style.marginLeft ='5%';
-                  // nodeOL.style.marginRight ='5%';
-                  // nodeOL.className = 'directions';
-
-                  // section.actions.forEach((action, idx) => {
-                  //   var li = document.createElement('li'),
-                  //       spanArrow = document.createElement('span'),
-                  //       spanInstruction = document.createElement('span');
-
-                  //   spanArrow.className = 'arrow ' + (action.direction || '') + action.action;
-                  //   spanInstruction.innerHTML = section.actions[idx].instruction;
-                  //   li.appendChild(spanArrow);
-                  //   li.appendChild(spanInstruction);
-
-                  //   nodeOL.appendChild(li);
-                  // });
-
-                  // routeInstructionsContainer.appendChild(nodeOL);
                 });
               }
             },

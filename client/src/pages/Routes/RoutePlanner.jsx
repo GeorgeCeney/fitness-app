@@ -1,6 +1,7 @@
 import Map from "../../components/Map/Map";
 import { useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, InputGroup, Form } from "react-bootstrap";
+import './RoutePlanner.css';
 
 
 const RoutePlanner = () => {
@@ -10,7 +11,8 @@ const RoutePlanner = () => {
 
   return (
     <Container>
-      <Row>
+      
+      <Row className="my-4">
         <Col>
           <Card>
             <Card.Body>
@@ -34,52 +36,85 @@ const RoutePlanner = () => {
           </Card>
         </Col>
       </Row>
-      <Row>
+      
+      <Row className="my-4">
+        
         <Col xs={8}>
           <Map/>
         </Col>
+        
         <Col>
           <Row>
-            <div id="panel"></div>
+            <Card>
+              <Card.Body>
+                <Card.Title>Current Run</Card.Title>
+                <div className="stats mt-3">
+                  <Row className="text-center mb-2">
+                    <div id= "RouteDistanceDiv" className="stat-value font-weight-bold display-4">0m</div>
+                    <div className="stat-label">Route Distance</div>
+                    {/* <Col xs={6} className="mb-4">
+                      <div id="estCaloriesBurntDiv" className="stat-value font-weight-bold display-4">{0}</div>
+                      <div className="stat-label">Estimated Calories Burnt</div>
+                    </Col> */}
+                  </Row>
+                </div>
+              </Card.Body>
+            </Card>
           </Row>
-          <Row>
-            {/* <input type="text" value={startingPoint} onChange={(e) => setStartingPoint(e.target.value)} /> */}
+
+          <Row className="my-3">
             <Col>
               <Button id="UndoRouteButton">Undo</Button>
             </Col>
             <Col>
               <Button id="ClearRouteButton">Clear</Button>
             </Col>
-            
-            <p>Set Weight</p>
-            <input id="weightInput" type="number" value={weight} onChange={(e) => setWeight(e.target.value)}/>
-
-            <p>Set Time</p>
-            <input id="timeInput" type="number" value={time} onChange={(e) => setTime(e.target.value)}/>
-
-            <button id="SaveRun">Save Run</button>
           </Row>
+          
+          <Row className="my-3">
+            <Card>
+              <Card.Body>
+                <Card.Title>Set Time</Card.Title>
+                <Row className="my-3">
+                  <Col>
+                      <Form.Control
+                        placeholder="Hours"
+                        aria-label="Hours"
+                      />
+                  </Col>
+                  <Col xs={1}>
+                    <p>:</p>
+                  </Col>
+                  <Col>
+                      <Form.Control
+                        placeholder="Minutes"
+                        aria-label="Minutes"
+                      />
+                  </Col>
+                  <Col xs={1}>
+                    <p>:</p>
+                  </Col>
+                  <Col>
+                      <Form.Control
+                        placeholder="Seconds"
+                        aria-label="Seconds"
+                      />
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+            
+            
+          </Row>
+
+          <Row>
+            <Button id="SaveRun">Save Run</Button>
+          </Row>
+
         </Col>
       </Row>
       <Row>
-      <Card>
-        <Card.Body>
-          <Card.Title>Current Run</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Stats</Card.Subtitle>
-          <div className="stats mt-3">
-            <Row className="text-center">
-              <Col xs={6} className="mb-4">
-                <div id= "RouteDistanceDiv" className="stat-value font-weight-bold display-4">0m</div>
-                <div className="stat-label">Route Distance</div>
-              </Col>
-              <Col xs={6} className="mb-4">
-                <div id="estCaloriesBurntDiv" className="stat-value font-weight-bold display-4">{0}</div>
-                <div className="stat-label">Estimated Calories Burnt</div>
-              </Col>
-            </Row>
-          </div>
-        </Card.Body>
-      </Card>
+        <div id="panel2"></div>
       </Row>
     </Container>
 
