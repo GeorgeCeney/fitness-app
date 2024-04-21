@@ -5,6 +5,7 @@ import Home from './pages/Home/Home';
 import Calories from './pages/Calories/Calories';
 import Workouts from './pages/Workouts/Workouts';
 import RoutePlanner from './pages/Routes/RoutePlanner';
+import SaveRoute from "./components/Route/SaveRoute/SaveRoute"
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 import CreateWorkout from './components/Workout/CreateWorkout/CreateWorkout';
@@ -22,6 +23,7 @@ function App() {
               <Route path="/calories" element={<Calories/>}/>
               <Route path="/workouts" element={<Workouts/>}/>
               <Route path="/routes" element={<RoutePlanner />}/>
+              <Route path="/routes/save-route" element={<SaveRoute />}/>
               <Route path="/workouts/create" element={<CreateWorkout />}/>
             </Routes>
           </div>

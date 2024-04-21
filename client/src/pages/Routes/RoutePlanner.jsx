@@ -1,14 +1,9 @@
 import Map from "../../components/Map/Map";
-import { useState } from "react";
-import { Button, Card, Col, Container, Row, InputGroup, Form } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Form } from "react-bootstrap";
 import './RoutePlanner.css';
-
+import SaveRouteWarning from "../../components/Route/Warning/Warning";
 
 const RoutePlanner = () => {
-  // const [startingPoint, setStartingPoint] = useState('');
-  const [weight, setWeight] = useState(0)
-  const [time, setTime] = useState(0)
-
   return (
     <Container>
       
@@ -70,45 +65,11 @@ const RoutePlanner = () => {
               <Button id="ClearRouteButton">Clear</Button>
             </Col>
           </Row>
-          
-          <Row className="my-3">
-            <Card>
-              <Card.Body>
-                <Card.Title>Set Time</Card.Title>
-                <Row className="my-3">
-                  <Col>
-                      <Form.Control
-                        placeholder="Hours"
-                        aria-label="Hours"
-                      />
-                  </Col>
-                  <Col xs={1}>
-                    <p>:</p>
-                  </Col>
-                  <Col>
-                      <Form.Control
-                        placeholder="Minutes"
-                        aria-label="Minutes"
-                      />
-                  </Col>
-                  <Col xs={1}>
-                    <p>:</p>
-                  </Col>
-                  <Col>
-                      <Form.Control
-                        placeholder="Seconds"
-                        aria-label="Seconds"
-                      />
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-            
-            
-          </Row>
 
           <Row>
-            <Button id="SaveRun">Save Run</Button>
+            <Button id="SaveRun" className="mb-3">Save Run</Button>
+            <a id="link"></a>
+            <SaveRouteWarning id="SaveRouteWarning"/>
           </Row>
 
         </Col>
@@ -116,8 +77,8 @@ const RoutePlanner = () => {
       <Row>
         <div id="panel2"></div>
       </Row>
-    </Container>
 
+    </Container>
   );
 };
 

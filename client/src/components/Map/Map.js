@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import H from '@here/maps-api-for-javascript';
+import SaveRouteWarning from '../Route/Warning/Warning';
+import { useNavigate } from "react-router-dom";
 
 const Map = (props) => {
   const mapRef = useRef(null);
@@ -11,6 +13,8 @@ const Map = (props) => {
   var distances = []
   var routeDistance = 0
   
+  const navigate = useNavigate();
+  
   const platform = new H.service.Platform({
     'apikey': 'da2TME2OhQPR19NeeogV8SmFqXsGDK6SXPuUEbt93hs'
   });
@@ -18,6 +22,7 @@ const Map = (props) => {
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
   function calcTotalDistance(distanceList) {
     var routeDistanceDiv = document.getElementById("RouteDistanceDiv")
 
@@ -37,28 +42,32 @@ const Map = (props) => {
   }
 
   async function capture(resultContainer, map, ui) {
-    console.log(route)
-    let sumLat = 0;
-    let sumLng = 0;
-    route.forEach((point) => {
-      sumLat += point.lat
-      sumLng += point.lng
-    })
+    if (route.length > 1) {
+      let sumLat = 0;
+      let sumLng = 0;
+      route.forEach((point) => {
+        sumLat += point.lat
+        sumLng += point.lng
+      })
+  
+      map.setCenter({lat: (sumLat/route.length), lng: (sumLng/route.length)})
+      map.setZoom(15); // needs method
+  
+      await sleep(3000)
+  
+      map.capture(function(canvas) {
+        if (canvas) {
+          resultContainer.innerHTML = '';
+          resultContainer.appendChild(canvas);
+          
+          let routeImage = canvas.toDataURL("image/png")
+          navigate('/routes/save-route', { state: { routeImage } })
 
-    map.setCenter({lat: (sumLat/route.length), lng: (sumLng/route.length)})
-    map.setZoom(15); // needs method
-
-    await sleep(3000)
-
-    map.capture(function(canvas) {
-      if (canvas) {
-        resultContainer.innerHTML = '';
-        resultContainer.appendChild(canvas);
-      } else {
-        // For example when map is in Panorama mode
-        resultContainer.innerHTML = 'Capturing is not supported';
-      }
-    }, [ui], 0, 0, 500, 500);
+        } else {
+          resultContainer.innerHTML = 'Capturing is not supported';
+        }
+      }, [ui], 0, 0, 500, 500);
+    }
   }
 
   useEffect(() => {
@@ -107,36 +116,7 @@ const Map = (props) => {
 
       saveRun.addEventListener("click", function (evt) {
         var resultContainer = document.getElementById('panel2');
-        capture(resultContainer, map.current, ui);
-
-
-        // REFERENCE: https://downhilltodowntown.com/how-to-calculate-your-caloric-burn-while-running/
-        
-      //   var MET = 0 // Metabolic Equivalent of Task (MET) is a unit used to estimate the energy expenditure of various activities
-      //   let weight = document.getElementById("weightInput").value
-      //   let time = document.getElementById("timeInput").value
-
-      //   let avgKmPerHour = (routeDistance / 1000) / (time / 60)
-
-      //   const speedRanges = [4.0, 5.7, 8.0, 9.7, 11.3, 12.9, 14.5];
-      //   const mets = [0.5, 2, 4, 6, 8, 10, 11.5, 12.8];
-        
-      //   for (let i = 0; i < speedRanges.length; i++) {
-      //       if (avgKmPerHour < speedRanges[i]) {
-      //           MET = mets[i];
-      //           break;
-      //       }
-      //   }
-      //   if (MET === undefined) {
-      //       MET = mets[mets.length - 1];
-      //   }
-
-      //   // If avgKmPerHour is greater than or equal to the last speed range
-      //   var estCaloriesBurntDiv = document.getElementById("estCaloriesBurntDiv")
-        
-      //   // Calories Burned = MET x Body Weight (kg) x Duration of Running (hours)
-      //   let estCaloriesBurnt = MET * weight * (time / 60)
-      //   estCaloriesBurntDiv.innerHTML = routeDistance > 0 ? estCaloriesBurnt : 0
+        capture(resultContainer, map.current, ui);        
       })
 
       
