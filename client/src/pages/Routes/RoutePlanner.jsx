@@ -1,20 +1,16 @@
 import Map from "../../components/Map/Map";
-import { Button, Card, Col, Container, Row, Form } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Alert } from "react-bootstrap";
 import './RoutePlanner.css';
-import SaveRouteWarning from "../../components/Route/Warning/Warning";
 
 const RoutePlanner = () => {
   return (
     <Container>
-      
       <Row className="my-4">
         <Col>
           <Card>
             <Card.Body>
               <Card.Title>Dashboard</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Monthly View
-              </Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">Monthly View</Card.Subtitle>
               <div className="stats mt-3">
                 <Row className="text-center">
                   <Col xs={6} className="mb-4">
@@ -68,16 +64,11 @@ const RoutePlanner = () => {
 
           <Row>
             <Button id="SaveRun" className="mb-3">Save Run</Button>
-            <a id="link"></a>
-            <SaveRouteWarning id="SaveRouteWarning"/>
+            <Alert variant="warning" id="SaveRouteWarning">Please enter a route.</Alert>
           </Row>
 
         </Col>
       </Row>
-      <Row>
-        <div id="panel2"></div>
-      </Row>
-
     </Container>
   );
 };

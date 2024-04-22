@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import H from '@here/maps-api-for-javascript';
-import SaveRouteWarning from '../Route/Warning/Warning';
 import { useNavigate } from "react-router-dom";
 
 const Map = (props) => {
@@ -18,7 +17,7 @@ const Map = (props) => {
   const platform = new H.service.Platform({
     'apikey': 'da2TME2OhQPR19NeeogV8SmFqXsGDK6SXPuUEbt93hs'
   });
-  
+
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -41,40 +40,80 @@ const Map = (props) => {
     return (sum)
   }
 
-  async function capture(resultContainer, map, ui) {
-    if (route.length > 1) {
-      let sumLat = 0;
-      let sumLng = 0;
-      route.forEach((point) => {
-        sumLat += point.lat
-        sumLng += point.lng
-      })
-  
-      map.setCenter({lat: (sumLat/route.length), lng: (sumLng/route.length)})
-      map.setZoom(15); // needs method
-  
-      await sleep(3000)
-  
-      map.capture(function(canvas) {
-        if (canvas) {
-          resultContainer.innerHTML = '';
-          resultContainer.appendChild(canvas);
-          
-          let routeImage = canvas.toDataURL("image/png")
-          navigate('/routes/save-route', { state: { routeImage } })
+  function findMinMaxCoordinates(xCoordinates, yCoordinates) {
+    // Initialize variables to store min and max values
+    let minX = xCoordinates[0];
+    let maxX = xCoordinates[0];
+    let minY = yCoordinates[0];
+    let maxY = yCoordinates[0];
 
-        } else {
-          resultContainer.innerHTML = 'Capturing is not supported';
+    // Iterate over the coordinates
+    for (let i = 1; i < xCoordinates.length; i++) {
+        // Update minX and maxX
+        if (xCoordinates[i] < minX) {
+            minX = xCoordinates[i];
+        } else if (xCoordinates[i] > maxX) {
+            maxX = xCoordinates[i];
         }
-      }, [ui], 0, 0, 500, 500);
+
+        // Update minY and maxY
+        if (yCoordinates[i] < minY) {
+            minY = yCoordinates[i];
+        } else if (yCoordinates[i] > maxY) {
+            maxY = yCoordinates[i];
+        }
     }
+
+    // Return min and max coordinates
+    return {
+        minX: minX,
+        maxX: maxX,
+        minY: minY,
+        maxY: maxY
+    };
+}
+
+  function setMapViewBounds(map, bounds) {
+    var bbox = new H.geo.Rect(bounds.maxY, bounds.minX, bounds.minY, bounds.maxX);
+    map.getViewModel().setLookAtData({bounds: bbox, zoom:16}, true);
+  }
+
+  async function capture(map, ui) {
+    let sumLat = 0;
+    let sumLng = 0;
+    let varianceListLat = []
+    let varianceListLng = []
+
+    route.forEach((point) => {
+      sumLat += point.lat
+      varianceListLat.push(point.lat)
+      sumLng += point.lng
+      varianceListLng.push(point.lng)
+    })
+
+    const routeBounds = findMinMaxCoordinates(varianceListLng, varianceListLat)
+    console.log(routeBounds)
+    setMapViewBounds(map, routeBounds)
+
+    await sleep(1000)
+
+    map.capture(function(canvas) {
+      if (canvas) {
+        let routeImage = canvas.toDataURL("image/png")
+        navigate('/routes/save-route', { state: { routeImage, routeDistance, route} })
+      } else {
+        console.log('Capturing is not supported')
+      }
+    }, [ui]);
   }
 
   useEffect(() => {
     const clearButton = document.getElementById("ClearRouteButton")
     const undoButton = document.getElementById("UndoRouteButton")
     const saveRun = document.getElementById("SaveRun")
+    document.getElementById("SaveRouteWarning").style.display = "none";
 
+    // CREATES MAP
     if (!map.current) {
       const defaultLayers = platform.createDefaultLayers();
       
@@ -90,6 +129,9 @@ const Map = (props) => {
       const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map.current));
       var ui = H.ui.UI.createDefault(map.current, defaultLayers, 'en-US');
       
+
+
+
       // CLEAR ROUTE
       clearButton.addEventListener("click", function (evt) {
         route = []
@@ -98,6 +140,9 @@ const Map = (props) => {
         while(clickPoints.length > 0) { map.current.removeObject(clickPoints[0]); clickPoints.shift()}
         while(polylines.length > 0) { map.current.removeObject(polylines[0]); polylines.shift()}
       })
+
+
+
 
       // UNDO LAST POINT
       undoButton.addEventListener("click", function (evt) {
@@ -114,14 +159,21 @@ const Map = (props) => {
         route.pop()
       })
 
+
+      // SAVE RUN CLICK
       saveRun.addEventListener("click", function (evt) {
-        var resultContainer = document.getElementById('panel2');
-        capture(resultContainer, map.current, ui);        
+        if (route.length > 1) {
+          document.getElementById("SaveRouteWarning").style.display = "none";
+          capture(map.current, ui);
+        } else {
+          document.getElementById("SaveRouteWarning").style.display = "block";
+        }
       })
 
       
       // MOUSE CLICK ON MAP
       map.current.addEventListener('tap', function (evt) {
+        document.getElementById("SaveRouteWarning").style.display = "none";
         // gets coords of mouse click
         var coord = map.current.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
         route.push(coord)
@@ -140,7 +192,6 @@ const Map = (props) => {
         );
         clickPoints.push(clickPoint)
         map.current.addObject(clickPoint);
-        // clickPoint.addEventListener('tap', console.log("tap detected"));
 
         // once there are more than two points, connect the route
         if (map.current && route.length > 1) {

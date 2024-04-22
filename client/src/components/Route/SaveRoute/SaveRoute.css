@@ -1,34 +1,16 @@
-p {
-  text-align: center;
-  font-weight: bold;
-  margin-top: 5%;
+#cancelSaveRunButton {
+  background-color: #E4340B;
 }
 
-.btn-primary {
-    background-color: var(--primary-colour);
-    border-color: var(--primary-colour);
-  }
-  
-  .btn-primary:hover {
-    background-color: #202530;
-    border-color: #202530;
-  }
-  
-  .form-control {
-    border-color: var(--light-blue-colour);
-  }
-  
-  .form-control:focus {
-    border-color: var(--primary-colour);
-    box-shadow: 0 0 0 0.2rem rgba(10, 106, 216, 0.25);
-  }
-  
-  .alert-danger {
-    background-color: var(--lightblue-colour);
-    color: var(--dark-colour);
-  }
-  
-  .row {
-    padding-top: 2px;
-    padding-bottom: 4px;
-  }
+#cancelSaveRunButton:Hover {
+  background-color: #202530;
+  border-color: #202530;
+}
+
+#saveRunButton, #cancelSaveRunButton {
+  width: 100%;
+}
+
+img {
+  width: 100%;
+}
