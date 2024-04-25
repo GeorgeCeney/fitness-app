@@ -75,11 +75,11 @@ function SaveRoute() {
         };
       
         try {
-          const response = await axios.post(`${backendUrl}/save-route`, routeData) //, {
-        //     headers: {
-        //       Authorization: `${token}`,
-        //     },
-        //   });
+          const response = await axios.post(`${backendUrl}/save-route`, routeData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
           console.log('Route saved:', response.data);
           navigate('/routes');    
         } catch (error) {
