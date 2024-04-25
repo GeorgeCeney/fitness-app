@@ -8,7 +8,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-const backendUrl = "http://localhost:3000/routes";
+const backendUrl = "http://localhost:3001/routes";
 
 function SaveRoute() {
     const { state } = useLocation()
@@ -73,18 +73,17 @@ function SaveRoute() {
             numLaps,
             route: state.route,
         };
-        console.log(routeData)
       
         try {
-          const response = await axios.post(`${backendUrl}/create`, routeData, {
-            headers: {
-              Authorization: `${token}`,
-            },
-          });
+          const response = await axios.post(`${backendUrl}/save-route`, routeData) //, {
+        //     headers: {
+        //       Authorization: `${token}`,
+        //     },
+        //   });
           console.log('Route saved:', response.data);
           navigate('/routes');    
         } catch (error) {
-          console.error('Error saving workout:', error.response.data);
+          console.error('Error saving run:', error.response.data);
           // Handle error (e.g., showing an error message)
         }
       };

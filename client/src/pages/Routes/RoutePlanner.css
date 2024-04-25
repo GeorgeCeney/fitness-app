@@ -7,6 +7,6 @@
     border-color: #202530;
 }
 
-#UndoRouteButton, #ClearRouteButton {
+#UndoRouteButton, #ClearRouteButton, #SaveRun {
     width: 100%;
 }

@@ -63,8 +63,10 @@ const RoutePlanner = () => {
           </Row>
 
           <Row>
-            <Button id="SaveRun" className="mb-3">Save Run</Button>
-            <Alert variant="warning" id="SaveRouteWarning">Please enter a route.</Alert>
+            <Col>
+              <Button id="SaveRun" className="mb-3">Save Run</Button>
+              <Alert variant="warning" id="SaveRouteWarning">Please enter a route.</Alert>
+            </Col>
           </Row>
 
         </Col>

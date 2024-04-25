@@ -92,10 +92,9 @@ const Map = (props) => {
     })
 
     const routeBounds = findMinMaxCoordinates(varianceListLng, varianceListLat)
-    console.log(routeBounds)
     setMapViewBounds(map, routeBounds)
 
-    await sleep(1000)
+    await sleep(2000)
 
     map.capture(function(canvas) {
       if (canvas) {
