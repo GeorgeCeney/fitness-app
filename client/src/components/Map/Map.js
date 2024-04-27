@@ -130,7 +130,6 @@ const Map = (props) => {
       
 
 
-
       // CLEAR ROUTE
       clearButton.addEventListener("click", function (evt) {
         route = []

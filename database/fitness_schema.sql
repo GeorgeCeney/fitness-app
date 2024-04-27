@@ -66,6 +66,12 @@ CREATE TABLE public.users (
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE public.users OWNER TO postgres;
+
+---
+--- AARON'S RUNNING ROUTE WORK
+---
+
 CREATE TABLE public.runs (
     run_id SERIAL PRIMARY KEY,
     user_id integer NOT NULL,
@@ -78,9 +84,6 @@ CREATE TABLE public.runs (
     estimated_calories_burnt float NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
-
-
-ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres

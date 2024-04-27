@@ -2,10 +2,19 @@
     background-color: #E4340B;
 }
 
-#ClearRouteButton:Hover {
+#ClearRouteButton:Hover, #SaveRun:Hover, #ViewPreviousRunsButton:Hover {
     background-color: #202530;
     border-color: #202530;
 }
+
+#SaveRun {
+    background-color: #067e0e;
+}
+
+#ViewPreviousRunsButton {
+    background-color: #949594;
+}
+
 
 #UndoRouteButton, #ClearRouteButton, #SaveRun {
     width: 100%;

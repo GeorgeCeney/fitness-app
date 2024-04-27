@@ -22,6 +22,7 @@ const RoutePlanner = () => {
                     <div className="stat-label">Total Distance</div>
                   </Col>
                 </Row>
+                <Button id="ViewPreviousRunsButton">View Previous Runs</Button>
               </div>
             </Card.Body>
           </Card>
@@ -64,8 +65,8 @@ const RoutePlanner = () => {
 
           <Row>
             <Col>
-              <Button id="SaveRun" className="mb-3">Save Run</Button>
-              <Alert variant="warning" id="SaveRouteWarning">Please enter a route.</Alert>
+              <Button id="SaveRun" className="mb-3">Save Current Run</Button>
+              <Alert className="mb-3" variant="warning" id="SaveRouteWarning">Please enter a route.</Alert>
             </Col>
           </Row>
 
