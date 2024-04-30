@@ -10,6 +10,8 @@ import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 import CreateWorkout from './components/Workout/CreateWorkout/CreateWorkout';
 import { AuthProvider } from './components/AuthContext/AuthContext';
+import PreviousRoutes from './components/Route/PreviousRoutes/PreviousRoutes';
+
 
 function App() {
   return (
@@ -20,11 +22,15 @@ function App() {
           <div className='pages'>
             <Routes>
               <Route path="/" element={<Home />}/>
+              
               <Route path="/calories" element={<Calories/>}/>
+              
               <Route path="/workouts" element={<Workouts/>}/>
+              <Route path="/workouts/create" element={<CreateWorkout />}/>
+
               <Route path="/routes" element={<RoutePlanner />}/>
               <Route path="/routes/save-route" element={<SaveRoute />}/>
-              <Route path="/workouts/create" element={<CreateWorkout />}/>
+              <Route path="/routes/previous-routes" element={<PreviousRoutes/>}/>
             </Routes>
           </div>
         </Router>

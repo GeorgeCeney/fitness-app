@@ -1,8 +1,15 @@
 import Map from "../../components/Map/Map";
 import { Button, Card, Col, Container, Row, Alert } from "react-bootstrap";
 import './RoutePlanner.css';
+import { useNavigate } from "react-router-dom";
 
 const RoutePlanner = () => {
+  const navigate = useNavigate();
+
+  const handleViewPreviousRuns = () => {
+    navigate('/routes/previous-routes')
+  }
+
   return (
     <Container>
       <Row className="my-4">
@@ -22,7 +29,7 @@ const RoutePlanner = () => {
                     <div className="stat-label">Total Distance</div>
                   </Col>
                 </Row>
-                <Button id="ViewPreviousRunsButton">View Previous Runs</Button>
+                <Button id="ViewPreviousRunsButton" onClick={handleViewPreviousRuns}>View Previous Runs</Button>
               </div>
             </Card.Body>
           </Card>
