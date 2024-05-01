@@ -17,7 +17,7 @@ router.post('/save-route', verifyToken, async (req, res) => {
         await pool.query('BEGIN');
 
         const workoutResult = await pool.query(
-            'INSERT INTO runs (user_id, run_name, run_time, run_total_distnace, number_of_laps, run_route, user_weight, estimated_calories_burnt, route_image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+            'INSERT INTO runs (user_id, run_name, run_time, run_total_distance, number_of_laps, run_route, user_weight, estimated_calories_burnt, route_image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
             [userId, runName, runTime, routeDistance, numLaps, routeJSON, userWeight, estCaloriesBurnt, routeImage]
         );
 

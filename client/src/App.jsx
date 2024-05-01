@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 import CreateWorkout from './components/Workout/CreateWorkout/CreateWorkout';
 import { AuthProvider } from './components/AuthContext/AuthContext';
-import PreviousRoutes from './components/Route/PreviousRoutes/PreviousRoutes';
+import RunAnalytics from './components/Route/RunAnalytics/RunAnalytics';
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 
               <Route path="/routes" element={<RoutePlanner />}/>
               <Route path="/routes/save-route" element={<SaveRoute />}/>
-              <Route path="/routes/previous-routes" element={<PreviousRoutes/>}/>
+              <Route path="/routes/run-analytics" element={<RunAnalytics/>}/>
             </Routes>
           </div>
         </Router>

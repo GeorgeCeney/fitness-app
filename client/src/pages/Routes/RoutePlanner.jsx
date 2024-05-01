@@ -2,12 +2,52 @@ import Map from "../../components/Map/Map";
 import { Button, Card, Col, Container, Row, Alert } from "react-bootstrap";
 import './RoutePlanner.css';
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../components/AuthContext/AuthContext";
+import LoginRegisterModal from "../../components/LoginRegister/LoginRegisterModal";
+import axios from "axios";
+
+const backendUrl = "http://localhost:3001/routes";
 
 const RoutePlanner = () => {
   const navigate = useNavigate();
+  const { token } = useAuth();
+  const [modalShow, setModalShow] = useState(false);
+  const [previousRuns, setPreviousRuns] = useState([])
 
-  const handleViewPreviousRuns = () => {
-    navigate('/routes/previous-routes')
+  useEffect(() => {
+    if (token == null) {
+      setModalShow(true)
+    } else {
+        const fetchRunData = async () => {
+            const response = await axios.get(`${backendUrl}/previous-routes`, {
+                headers: {
+                  Authorization: `${token}`,
+                },
+            });
+            console.log('Previous Routes:', response.data.results);
+            return response.data.results
+        }
+        fetchRunData().then(setPreviousRuns);
+    }
+  }, [token])
+
+  const handleViewRunAnalytics = () => {
+    navigate('/routes/run-analytics', { state: previousRuns })
+  }
+
+  let monthRunsNum = previousRuns.length
+  let monthTotalDistance = 0
+  let monthTotalDistanceString = 0
+
+  for (const run of previousRuns) {
+    monthTotalDistance += run.run_total_distance
+  }
+
+  if (monthTotalDistance >= 1000) {
+    monthTotalDistanceString = (monthTotalDistance / 1000).toFixed(2) + "km";
+  } else {
+    monthTotalDistanceString = monthTotalDistance + "m";
   }
 
   return (
@@ -21,15 +61,15 @@ const RoutePlanner = () => {
               <div className="stats mt-3">
                 <Row className="text-center">
                   <Col xs={6} className="mb-4">
-                    <div className="stat-value font-weight-bold display-4">{0}</div>
+                    <div className="stat-value font-weight-bold display-4">{monthRunsNum}</div>
                     <div className="stat-label">Runs</div>
                   </Col>
                   <Col xs={6} className="mb-4">
-                    <div className="stat-value font-weight-bold display-4">{0}km</div>
+                    <div className="stat-value font-weight-bold display-4">{monthTotalDistanceString}</div>
                     <div className="stat-label">Total Distance</div>
                   </Col>
                 </Row>
-                <Button id="ViewPreviousRunsButton" onClick={handleViewPreviousRuns}>View Previous Runs</Button>
+                <Button id="ViewRunAnalytics" onClick={handleViewRunAnalytics}>View Analytics</Button>
               </div>
             </Card.Body>
           </Card>
@@ -79,6 +119,7 @@ const RoutePlanner = () => {
 
         </Col>
       </Row>
+      <LoginRegisterModal show={modalShow} handleClose={() => setModalShow(false)} />
     </Container>
   );
 };
