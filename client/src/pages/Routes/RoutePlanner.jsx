@@ -36,14 +36,28 @@ const RoutePlanner = () => {
     navigate('/routes/run-analytics', { state: previousRuns })
   }
 
-  let monthRunsNum = previousRuns.length
-  let monthTotalDistance = 0
-  let monthTotalDistanceString = 0
+  // Function to calculate sum of distance ran in the current month
+  function calculateDistanceInCurrentMonth(runs) {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    let monthDistance = 0;
+    let numRuns = 0;
 
-  for (const run of previousRuns) {
-    monthTotalDistance += run.run_total_distance
+    runs.forEach(run => {
+        const entryDate = new Date(run.created_at);
+        if (entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear) {
+          monthDistance += run.run_total_distance;
+          numRuns += 1;
+        }
+    });
+
+    return [numRuns, monthDistance];
   }
 
+  const [monthRunsNum, monthTotalDistance] = calculateDistanceInCurrentMonth(previousRuns)
+
+  let monthTotalDistanceString
   if (monthTotalDistance >= 1000) {
     monthTotalDistanceString = (monthTotalDistance / 1000).toFixed(2) + "km";
   } else {

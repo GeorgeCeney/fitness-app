@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const DistanceRanChart = ({ data }) => {
+const AnalysisChart = ({ data, name }) => {
     const chartRef = useRef(null);
 
     useEffect(() => {
@@ -13,7 +13,7 @@ const DistanceRanChart = ({ data }) => {
             data: {
                 labels: data.labels,
                 datasets: [{
-                    label: 'Distance (meters)',
+                    label: name,
                     data: data.values,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
@@ -38,4 +38,4 @@ const DistanceRanChart = ({ data }) => {
     return <canvas ref={chartRef} />;
 };
 
-export default DistanceRanChart;
+export default AnalysisChart;

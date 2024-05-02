@@ -31,6 +31,9 @@ function App() {
               <Route path="/routes" element={<RoutePlanner />}/>
               <Route path="/routes/save-route" element={<SaveRoute />}/>
               <Route path="/routes/run-analytics" element={<RunAnalytics/>}/>
+
+              <Route path="/*" element={<Home/>}/>
+
             </Routes>
           </div>
         </Router>

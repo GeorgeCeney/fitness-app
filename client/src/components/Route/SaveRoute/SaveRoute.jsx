@@ -23,11 +23,8 @@ function SaveRoute() {
     const [notes, setNotes] = useState('');
     const [estCaloriesBurnt, setEstCaloriesBurnt] = useState('')
     const [numLaps, setNumLaps] = useState(1)
-    const [blobImage, setBlobImage] = useState()
 
     useEffect(() => {
-        fetch(state.routeImage).then(res => res.blob()).then(setBlobImage)
-
         // REFERENCE: https://downhilltodowntown.com/how-to-calculate-your-caloric-burn-while-running/
         var MET // Metabolic Equivalent of Task (MET) is a unit used to estimate the energy expenditure of various activities
 
@@ -65,8 +62,6 @@ function SaveRoute() {
     }
 
     const handleSubmit = async (event) => {
-        console.log(blobImage)
-
         event.preventDefault();
         
         // Format the workout data
@@ -78,7 +73,6 @@ function SaveRoute() {
             routeDistance,
             numLaps,
             route: state.route,
-            routeImage: blobImage
         };
       
         try {
