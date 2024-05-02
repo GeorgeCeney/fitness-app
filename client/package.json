@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.24.1",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.7",
@@ -20,6 +21,7 @@
     "css-loader": "^6.10.0",
     "dotenv": "^16.4.4",
     "inter-ui": "^4.0.1",
+    "jest": "^27.5.1",
     "moment": "^2.30.1",
     "postcss-loader": "^8.1.0",
     "react": "^18.2.0",

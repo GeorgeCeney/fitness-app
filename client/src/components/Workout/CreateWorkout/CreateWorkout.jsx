@@ -67,10 +67,24 @@ const CreateWorkout = () => {
     setExercises(updatedExercises);
   };
 
+  const isFormFilled = () => {
+    return (
+      workoutName !== '' &&
+      startTime !== '' &&
+      endTime !== '' &&
+      exercises.length > 0 &&
+      exercises.every(exercise => exercise.sets !== '' && exercise.reps !== '' && exercise.weight !== '')
+    );
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Format the workout data
+    
+    if (!isFormFilled()) {
+      alert('Please fill out all fields');
+      return;
+    }
+
     const workoutData = {
       workoutName,
       startTime: startTime.toISOString(),
@@ -90,16 +104,17 @@ const CreateWorkout = () => {
           Authorization: `${token}`,
         },
       });
-      console.log('Workout saved:', response.data);
+      alert("Workout saved successfully");
       navigate('/workouts');    
     } catch (error) {
-      console.error('Error saving workout:', error.response.data);
-      // Handle error (e.g., showing an error message)
+      const errorMessage = error.response.data.message;
+      alert(errorMessage);
     }
   };
 
   return (
     <Container className="create-workout-container my-4">
+      <h1>Create Workout</h1>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group controlId="workoutName" as={Col}>
@@ -111,6 +126,7 @@ const CreateWorkout = () => {
           <Form.Group controlId="startTime" as={Col}>
             <Form.Label>Start Time</Form.Label>
             <DatePicker
+              id='start-time-picker'
               selected={startTime}
               onChange={date => setStartTime(date)}
               showTimeSelect
@@ -124,6 +140,7 @@ const CreateWorkout = () => {
           <Form.Group controlId="endTime" as={Col}>
             <Form.Label>End Time</Form.Label>
             <DatePicker
+              id='end-time-picker'
               selected={endTime}
               onChange={date => setEndTime(date)}
               showTimeSelect
@@ -147,7 +164,7 @@ const CreateWorkout = () => {
         </Row>
         <Row className="mb-3">
           <Col>
-            <Button onClick={handleAddExercise} disabled={!selectedExercise}>Add Exercise</Button>
+            <Button id='add-exercise-button' onClick={handleAddExercise} disabled={!selectedExercise}>Add Exercise</Button>
           </Col>
         </Row>
         <Row>
@@ -167,7 +184,7 @@ const CreateWorkout = () => {
         </Row>
         <Row>
           <Col>
-            <Button variant="primary" type="submit">Save Workout</Button>
+            <Button id='save-workout-button' variant="primary" type="submit">Save Workout</Button>
           </Col>
         </Row>
       </Form>

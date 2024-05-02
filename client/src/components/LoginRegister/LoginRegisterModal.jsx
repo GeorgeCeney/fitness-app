@@ -21,23 +21,30 @@ const LoginRegisterModal = ({ show, handleClose }) => {
     setFormValues({ ...formValues, [id]: value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setValidationMessage('');
-    const isLogin = (key === 'login');
-  
+  const validateForm = () => { 
     if (!formValues.email || !formValues.password || (key === 'register' && !formValues.confirmPassword)) {
       setValidationMessage('Please fill in all fields.');
-      return;
+      return false;
     }
 
     if (!validateEmail(formValues.email)) {
       setValidationMessage('Please enter a valid email address.');
-      return;
+      return false;
     }
 
     if (key === 'register' && formValues.password !== formValues.confirmPassword) {
       setValidationMessage('Passwords do not match.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setValidationMessage('');
+  
+    if (!validateForm()) {
       return;
     }
 
@@ -79,7 +86,7 @@ const LoginRegisterModal = ({ show, handleClose }) => {
           className='mb-3'
         >
           <Tab eventKey="login" title="Sign In">
-            <Form onSubmit={handleSubmit}>
+            <Form id='login-form' onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control onChange={handleInputChange} type="email" placeholder="Enter email" />
@@ -90,7 +97,7 @@ const LoginRegisterModal = ({ show, handleClose }) => {
                 <Form.Control onChange={handleInputChange} type="password" placeholder="Password" />
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <Button id='sign-in-button' variant="primary" type="submit">
                 Sign In
               </Button>
             </Form>

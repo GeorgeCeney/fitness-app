@@ -87,7 +87,7 @@ const WorkoutCalendar = () => {
   };
 
   return (
-      <Container>
+      <Container data-testid="workout-calendar-component">
         <Row className="my-4">
           <Col>
             <Card>
@@ -99,11 +99,11 @@ const WorkoutCalendar = () => {
                 <div className="stats mt-3">
                   <Row className="text-center">
                     <Col xs={6} className="mb-4">
-                      <div className="stat-value font-weight-bold display-4">{totalWorkoutTime}</div>
+                      <div data-testid="duration-value" className="stat-value font-weight-bold display-4">{totalWorkoutTime}</div>
                       <div className="stat-label">Duration</div>
                     </Col>
                     <Col xs={6} className="mb-4">
-                      <div className="stat-value font-weight-bold display-4">{totalWorkouts}</div>
+                      <div data-testid="workouts-value" className="stat-value font-weight-bold display-4">{totalWorkouts}</div>
                       <div className="stat-label">Workouts</div>
                     </Col>
                   </Row>
@@ -116,7 +116,7 @@ const WorkoutCalendar = () => {
           <Col>
             <Card>
               <Card.Header>
-                <Button variant="primary" className="float-right" onClick={handleAddWorkout}>
+                <Button id='add-workout-button' variant="primary" className="float-right" onClick={handleAddWorkout}>
                   Add Workout
                 </Button>
               </Card.Header>
