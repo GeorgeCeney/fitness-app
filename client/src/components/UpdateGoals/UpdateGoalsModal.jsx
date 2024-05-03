@@ -68,6 +68,52 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
         setGoalsData(newData);
         console.log(goalsData)
         handleClose()
+
+        // BMR Formula:
+        //The Mifflin - St Jeor BMR bmw formula - souce https://www.thecalculatorsite.com/articles/health/bmr-formula.php
+        let user_bmr = 0;
+
+        // Calculate BMR based on Mifflin-St Jeor equation
+        user_bmr = (15 * newData.currentWeight) + (6.25 * 180) - (5 * 20) + 5;
+
+        // Adjust BMR based on weekly goal
+        switch (newData.weeklyGoal) {
+            case "lose1":
+                user_bmr -= 1000;
+                break;
+            case "lose05":
+                user_bmr -= 500;
+                break;
+            case "maintain":
+                break;
+            case "gain025":
+                user_bmr += 250;
+                break;
+            case "gain05":
+                user_bmr += 500;
+                break;
+        }
+
+        // Adjust BMR based on activity level
+        switch (newData.activityLevel) {
+            case "notActive":
+                user_bmr *= 0.9;
+                break;
+            case "lightlyActive":
+                user_bmr *= 1.1;
+                break;
+            case "active":
+                user_bmr *= 1.2;
+                break;
+            case "veryActive":
+                user_bmr *= 1.3;
+                break;
+        }
+        console.log("The Users BMR = " + user_bmr)
+        const carbs_goal = (user_bmr*0.5)/4
+        const protein_goal = (user_bmr*0.3)/4
+        const fat_goal = (user_bmr*0.3)/9
+
         // SEND API Request to parse through DATA
         const backendUrl = "http://localhost:3001/calories/setGoal";
         try {
@@ -77,10 +123,10 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
                 goal_weight: newData.goalWeight,
                 weekly_goal: newData.weeklyGoal,
                 activity_level: newData.activityLevel,
-                calories_goal: 69,
-                protein_goal: 69,
-                carbs_goal: 69,
-                fat_goal: 69
+                calories_goal: user_bmr,
+                protein_goal: protein_goal,
+                carbs_goal: carbs_goal,
+                fats_goal: fat_goal
             }, {
                 headers: {
                     Authorization: `${token}`

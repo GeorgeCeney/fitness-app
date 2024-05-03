@@ -14,14 +14,16 @@ router.post('/setGoal', verifyToken, async (req, res) => {
             activity_level,
             calories_goal,
             protein_goal,
-            carbs_goal
+            carbs_goal,
+            fats_goal
         } = req.body;
         const userID = req.user.user_id;
         
         const goalSettingQuery = {
-            text: 'INSERT INTO goals (user_id, start_weight, current_weight, goal_weight, weekly_goal, activity_level, calories_goal, protein_goal, carbs_goal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+            text: 'INSERT INTO goals (user_id, start_weight, current_weight, goal_weight, weekly_goal, activity_level, calories_goal, protein_goal, carbs_goal, fat_goal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);',
             values: [userID, start_weight, current_weight, goal_weight, weekly_goal, activity_level, calories_goal, protein_goal, carbs_goal, fats_goal]
         };
+        console.log(goalSettingQuery)
         
         // Executing the query
         await pool.query(goalSettingQuery);
@@ -77,7 +79,7 @@ router.post('/updateDiary', verifyToken, async (req, res) => {
 })
 
 router.get('/getDiary',verifyToken, async (req, res) =>{
-    try{F
+    try{
         const userID = req.user.user_id;
         const { date } = req.query; 
 

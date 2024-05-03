@@ -247,10 +247,10 @@ const Calories =  () => {
           </tr>
           <tr>
             <td>Your Daily Goal</td>
-            <td>{goalData.calories_goal}</td>
-            <td>{goalData.carbs_goal}</td>
-            <td>{goalData.fat_goal}</td>
-            <td>{goalData.protein_goal}</td>
+            <td>{goalData.calories_goal || 0}</td>
+            <td>{goalData.carbs_goal || 0}</td>
+            <td>{goalData.fat_goal || 0}</td>
+            <td>{goalData.protein_goal || 0}</td>
           </tr>
           <tr>
             <td>Remaining</td>
