@@ -1,7 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../AuthContext/AuthContext";
+import axios from 'axios';
 const QuickAddItemModal = ({ show, handleClose, onAddItem }) => {
+    const navigate = useNavigate();
+    const { token } = useAuth();
     const calorieRef = useRef(null); // Create a ref for the form element
     const fatRef = useRef(null);
     const carbRef = useRef(null);
@@ -33,25 +38,48 @@ const QuickAddItemModal = ({ show, handleClose, onAddItem }) => {
         setMacros(newData)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log("Calories:", calorieRef.current.value);
+        // const newData = {
+        //     date: new Date(),
+        //     item: 'Quick Add',
+        //     quantity: '1',
+        //     mealType: mealTypeRef.current.value,
+        //     calories: parseInt(calorieRef.current.value) || 0,
+        //     carbs: parseInt(carbRef.current.value) || 0,
+        //     fat: parseInt(fatRef.current.value) || 0,
+        //     protein: parseInt(proteinRef.current.value) || 0
+        // }
         const newData = {
-            item: 'Quick Add',
-            quantity: '1',
-            mealType: mealTypeRef.current.value,
-            calories: parseInt(calorieRef.current.value) || 0,
-            carbs: parseInt(carbRef.current.value) || 0,
-            fat: parseInt(fatRef.current.value) || 0,
-            protein: parseInt(proteinRef.current.value) || 0
+            date: new Date(),
+            meal: mealTypeRef.current.value,
+            food_name: 'Quick Add',
+            food_serving: '1',
+            food_calories: parseInt(calorieRef.current.value) || 0,
+            food_carbs: parseInt(carbRef.current.value) || 0,
+            food_protein: parseInt(proteinRef.current.value) || 0,
+            food_fat: parseInt(fatRef.current.value) || 0
         }
+        console.log(newData)
         setMacros(newData)
 
-        onAddItem(quickAddMacrosData)
+        onAddItem(newData)
 
         /*
         SEND API Request Saving this data, or save data as part of Calories.jsx file in the handleQuickAddItem function
         */
-    
+        const backendUrl = "http://localhost:3001/calories/updateDiary";
+        try {
+            const response = await axios.post(backendUrl, newData, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            });
+            console.log('Diary Updated:', response.data);
+        } catch (error) {
+            console.error('Error saving workout:', error.response.data);
+        }
+
 
         handleClose()
 

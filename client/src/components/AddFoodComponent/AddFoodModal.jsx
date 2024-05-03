@@ -1,8 +1,13 @@
 
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form, Table } from 'react-bootstrap';
+import { useAuth } from "../AuthContext/AuthContext";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const AddFoodModal = ({ show, handleClose, onAddItem }) => {
+    const navigate = useNavigate();
+    const { token } = useAuth();
     const [query, setQuery] = useState('');
     const [foodData, setFoodData] = useState([]);
     const [error, setError] = useState(null);
@@ -26,21 +31,46 @@ const AddFoodModal = ({ show, handleClose, onAddItem }) => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (servingRef.current && mealTypeRef.current) {
             const servingSize = parseInt(servingRef.current.value) || 1;
+            // const newData = {
+            //     date: new Date(),
+            //     quantity: servingSize,
+            //     item: foodData[0].name,
+            //     calories: Math.round(foodData[0].calories * servingSize),
+            //     carbs: Math.round(foodData[0].carbohydrates_total_g * servingSize),
+            //     fat: Math.round(foodData[0].fat_total_g * servingSize),
+            //     protein: Math.round(foodData[0].protein_g * servingSize),
+            //     mealType: mealTypeRef.current.value,
+            // };
             const newData = {
-                quantity: servingSize,
-                item: foodData[0].name,
-                calories: Math.round(foodData[0].calories * servingSize),
-                carbs: Math.round(foodData[0].carbohydrates_total_g * servingSize),
-                fat: Math.round(foodData[0].fat_total_g * servingSize),
-                protein: Math.round(foodData[0].protein_g * servingSize),
-                mealType: mealTypeRef.current.value,
-            };
+                date: new Date(),
+                meal: mealTypeRef.current.value,
+                food_serving: servingSize,
+                food_name: foodData[0].name,
+                food_calories: Math.round(foodData[0].calories * servingSize),
+                food_carbs: Math.round(foodData[0].carbohydrates_total_g * servingSize),
+                food_protein: Math.round(foodData[0].protein_g * servingSize),
+                food_fat: Math.round(foodData[0].fat_total_g * servingSize)
+            }
+            console.log(new Date)
+
             console.log(newData);
             // setFoodData(newData)
             onAddItem(newData)
+            // API send to add data to db
+            const backendUrl = "http://localhost:3001/calories/updateDiary";
+            try {
+                const response = await axios.post(backendUrl, newData, {
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                });
+                console.log('Diary Updated:', response.data);
+            } catch (error) {
+                console.error('Error saving workout:', error.response.data);
+            }
             handleClose();
         }
     };

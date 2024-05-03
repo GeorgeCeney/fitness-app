@@ -1,20 +1,30 @@
 import React, { useState, useEffect  } from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+
+import { useNavigate } from "react-router-dom";
 import './Calories.css'; // Import CSS file
 import UpdateGoalModal from '../../components/UpdateGoals/UpdateGoalsModal';
 import QuickAddItemModal from '../../components/QuickAdd/QuickAddItemModal';
 import AddFoodModal from '../../components/AddFoodComponent/AddFoodModal'
+import { useAuth } from "../../components/AuthContext/AuthContext";
+import axios from 'axios';
 
-const Calories = () => {
+const Calories =  () => {
+    const navigate = useNavigate();
+    const { token } = useAuth();
     const [modalShow, setShowGoalModal] = useState(false);
     const [quickAddModalShow, setQuickAddModalShow] = useState(false);
     const [foodAddModalShow, setFoodAddModalShow] = useState(false);
-    const [date, setDate] = useState(new Date());
-    const [quickAddData, setQuickAddData] = useState([])
+    // const [date, setDate] = useState(new Date());
+    const defaultDate = new Date().toISOString().substr(0, 10); // Format: YYYY-MM-DD
+    const [selectedDate, setSelectedDate] = useState(defaultDate);
+    const [goalData, setGoalData] = useState([]);
 
-    const [mealItems, setMealItems] = useState([{
+    const [mealItems, setMealItems] = useState([{}])
 
-      }])
+    
+
 
     const [totals, setTotals] = useState({
         calories: 0,
@@ -28,17 +38,66 @@ const Calories = () => {
       // setQuickAddData([...quickAddData, quickAddMacrosData]);
     
       // Add updated data to breakfastItems
-      setMealItems([...mealItems, quickAddMacrosData]);
+      setMealItems([...mealItems, quickAddMacrosData])
+      // setMealItems([...mealItems, quickAddMacrosData]);
     
     };
 
+    useEffect(() =>{
+      const getFoodData = async () => {
+        const backendUrl = 'http://localhost:3001/calories/getDiary?date=' + selectedDate;
+        try {
+          const response = await axios.get(backendUrl, {
+            headers: {
+              Authorization: `${token}`
+            }
+          });
+          setMealItems(response.data)
+          // console.log(response.data)
+
+        }catch(error){
+          console.log(error)
+        }
+      }
+
+      getFoodData();
+    }, [selectedDate]);
+
+    useEffect(() => {
+      const fetchGoalData = async () => {
+        const backendUrl = "http://localhost:3001/calories/getGoals";
+        try {
+          const response = await axios.get(backendUrl, {
+            headers: {
+              Authorization: `${token}`
+            }
+          });
+          if (!response.data){
+            setShowGoalModal(true)
+            alert("No Goal Data, please complete form!")
+          }else{
+            const responseData = response.data
+            // console.log(response.data)
+            setGoalData(responseData[response.data.length - 1]);
+            // console.log(responseData[response.data.length - 1]);
+          }
+
+        } catch (error) {
+          console.error('Error fetching goal data:', error);
+        }
+      };
+  
+      fetchGoalData(); 
+  
+    }, []);
+
   const handleDateChange = (e) => {
-    setDate(e.target.value);
+    // setDate(e.target.value);
+    setSelectedDate(e.target.value);
+
   };
 
-  const handleNewItem = () => {
 
-  }
 
   const handleDeleteItem = (mealType, index) => {
     return null
@@ -50,6 +109,7 @@ const Calories = () => {
 
   const handleUpdateGoals = () => {
     // Implement update goals logic here
+    
   };
 
 
@@ -57,7 +117,8 @@ const Calories = () => {
   return (
     <div className="calories-container">
       <div className="header">
-        <input type="date" class="form-control" value={date} onChange={handleDateChange} />
+        <input type="date" class="form-control" value={selectedDate} onChange={handleDateChange}/>
+        {/* <DatePicker class="form-control" onChange={handleDateChange} defaultValue={new Date()} ></DatePicker> */}
         <Button variant="primary" onClick={() => setShowGoalModal(true)}>Update Goals</Button>
         <UpdateGoalModal show={modalShow} handleClose={() => setShowGoalModal(false) } />
       </div>
@@ -81,14 +142,14 @@ const Calories = () => {
           </tr>
         </thead>
         <tbody>
-          {mealItems.filter(mealItems => mealItems.mealType == 'breakfast').map((item, index) => (
+          {mealItems.filter(item => item.meal == 'breakfast').map((item, index) => (
             <tr key={index}>
-              <td>{item.item}</td>
-              <td>{item.quantity}</td>
-              <td>{item.calories}</td>
-              <td>{item.carbs}</td>
-              <td>{item.fat}</td>
-              <td>{item.protein}</td>
+              <td>{item.food_name}</td>
+              <td>{item.food_serving}</td>
+              <td>{item.food_calories}</td>
+              <td>{item.food_carbs}</td>
+              <td>{item.food_fat}</td>
+              <td>{item.food_protein}</td>
               <td>
                 <Button variant = "warning" onClick={() => handleModifyItem('breakfast', index)}>Modify Entry</Button>
                 <Button variant ="danger" onClick={() => handleDeleteItem('breakfast', index)}>Delete Entry</Button>
@@ -111,17 +172,17 @@ const Calories = () => {
           </tr>
         </thead>
         <tbody>
-          {mealItems.filter(mealItems => mealItems.mealType == 'lunch').map((item, index) => (
+          {mealItems.filter(item => item.meal == 'lunch').map((item, index) => (
             <tr key={index}>
-              <td>{item.item}</td>
-              <td>{item.quantity}</td>
-              <td>{item.calories}</td>
-              <td>{item.carbs}</td>
-              <td>{item.fat}</td>
-              <td>{item.protein}</td>
+              <td>{item.food_name}</td>
+              <td>{item.food_serving}</td>
+              <td>{item.food_calories}</td>
+              <td>{item.food_carbs}</td>
+              <td>{item.food_fat}</td>
+              <td>{item.food_protein}</td>
               <td>
                 <Button variant = "warning" onClick={() => handleModifyItem('lunch', index)}>Modify Entry</Button>
-                <Button variant = "danger" onClick={() => handleDeleteItem('lunch', index)}>Delete Entry</Button>
+                <Button variant ="danger" onClick={() => handleDeleteItem('lunch', index)}>Delete Entry</Button>
               </td>
             </tr>
           ))}
@@ -141,17 +202,17 @@ const Calories = () => {
           </tr>
         </thead>
         <tbody>
-          {mealItems.filter(mealItems => mealItems.mealType === 'dinner').map((item, index) => (
+          {mealItems.filter(item => item.meal == 'dinner').map((item, index) => (
             <tr key={index}>
-              <td>{item.item}</td>
-              <td>{item.quantity}</td>
-              <td>{item.calories}</td>
-              <td>{item.carbs}</td>
-              <td>{item.fat}</td>
-              <td>{item.protein}</td>
+              <td>{item.food_name}</td>
+              <td>{item.food_serving}</td>
+              <td>{item.food_calories}</td>
+              <td>{item.food_carbs}</td>
+              <td>{item.food_fat}</td>
+              <td>{item.food_protein}</td>
               <td>
                 <Button variant = "warning" onClick={() => handleModifyItem('dinner', index)}>Modify Entry</Button>
-                <Button variant = "danger" onClick={() => handleDeleteItem('dinner', index)}>Delete Entry</Button>
+                <Button variant ="danger" onClick={() => handleDeleteItem('dinner', index)}>Delete Entry</Button>
               </td>
             </tr>
           ))}
@@ -159,6 +220,57 @@ const Calories = () => {
       </table>
       <h2>Totals</h2>
       <table>
+        <thead>
+          <tr>
+            <th>Totals</th>
+            <th>Calories (Kcal)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Protein (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Totals</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_calories || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_carbs || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_fat || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_protein || 0);
+            }, 0)}</td>
+          </tr>
+          <tr>
+            <td>Your Daily Goal</td>
+            <td>{goalData.calories_goal}</td>
+            <td>{goalData.carbs_goal}</td>
+            <td>{goalData.fat_goal}</td>
+            <td>{goalData.protein_goal}</td>
+          </tr>
+          <tr>
+            <td>Remaining</td>
+            <td>{goalData.calories_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_calories || 0);
+            }, 0)}</td>
+            <td>{goalData.carbs_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_carbs || 0);
+            }, 0)}</td>
+            <td>{goalData.fat_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_fat || 0);
+            }, 0)}</td>
+            <td>{goalData.protein_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_protein || 0);
+            }, 0)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* <table>
         <thead>
           <tr>
             <th>Totals</th>
@@ -186,16 +298,29 @@ const Calories = () => {
           </tr>
           <tr>
             <td>Your Daily Goal</td>
-            <td>2500</td>
-            <td>156</td>
-            <td>70</td>
-            <td>312</td>
+            <td>{goalData.calories_goal}</td>
+            <td>{goalData.carbs_goal}</td>
+            <td>{goalData.fat_goal}</td>
+            <td>{goalData.protein_goal}</td>
           </tr>
           <tr>
             <td>Reamaining</td>
+            <td>{goalData.calories_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + (mealItem.calories || 0);
+            }, 0)}</td>
+            <td>{goalData.carbs_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + (mealItem.carbs || 0);
+            }, 0)}</td>
+            <td>{goalData.fat_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + (mealItem.fat || 0);
+            }, 0)}</td>
+            <td>{goalData.protein_goal - mealItems.reduce((acc, mealItem) => {
+              return acc + (mealItem.protein || 0);
+            }, 0)}</td>
+
           </tr>
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };
