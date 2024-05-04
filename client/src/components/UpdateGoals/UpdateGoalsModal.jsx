@@ -14,7 +14,9 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
     const goalWeightRef = useRef(null);
     const activityLevelRef = useRef(null);
     const navigate = useNavigate();
-    const [goalData, setGoalData] = useState([]);
+    const [goalData, setGoalData] = useState([{
+
+    }]);
 
 
     useEffect(() => {
@@ -39,6 +41,7 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
         };
     
         fetchGoalData(); 
+        // IF GOAL DATA IS NULLL FIX IT UP
     
     
       }, []);

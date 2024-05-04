@@ -19,9 +19,19 @@ const Calories =  () => {
     // const [date, setDate] = useState(new Date());
     const defaultDate = new Date().toISOString().substr(0, 10); // Format: YYYY-MM-DD
     const [selectedDate, setSelectedDate] = useState(defaultDate);
-    const [goalData, setGoalData] = useState([]);
+    const [goalData, setGoalData] = useState({
+      start_weight: 0,
+      current_weight: 0,
+      goal_weight: 0,
+      weekly_goal: '',
+      activity_level: '',
+      calories_goal: 0,
+      protein_goal: 0,
+      carbs_goal: 0,
+      fat_goal: 0
+  });
 
-    const [mealItems, setMealItems] = useState([{}])
+    const [mealItems, setMealItems] = useState([])
 
     
 
@@ -88,6 +98,13 @@ const Calories =  () => {
       };
   
       fetchGoalData(); 
+      // If Goal Data is null set to 0 
+      console.log("The goal data is" + goalData)
+      if(!goalData){
+
+        setShowGoalModal(true)
+
+    }
   
     }, []);
 
@@ -99,9 +116,27 @@ const Calories =  () => {
 
 
 
-  const handleDeleteItem = (mealType, index) => {
-    return null
-  };
+  const handleDeleteItem = async (mealType, itemID) => {
+    console.log(itemID)
+    const backendUrl = 'http://localhost:3001/calories/deleteDiaryEntry';
+    try {
+      const response = await axios.post(backendUrl, {
+        id: itemID
+      } ,{
+      headers: {
+        Authorization: `${token}`
+        }
+      });
+      console.log(response)
+      // window.location.reload(false);
+        }catch(error){
+          console.log(error)
+        }
+
+        const newmealItems = mealItems.filter(item => item.food_id !== itemID);
+        setMealItems(newmealItems)
+    }
+  
 
   const handleModifyItem = (mealType, index) => {
     // Implement modification logic here
@@ -113,7 +148,8 @@ const Calories =  () => {
   };
 
 
-
+  // console.log("Calorie Goal is" + goalData.calories_goal)
+  console.log(mealItems)
   return (
     <div className="calories-container">
       <div className="header">
@@ -143,7 +179,7 @@ const Calories =  () => {
         </thead>
         <tbody>
           {mealItems.filter(item => item.meal == 'breakfast').map((item, index) => (
-            <tr key={index}>
+            <tr key={item.food_id}>
               <td>{item.food_name}</td>
               <td>{item.food_serving}</td>
               <td>{item.food_calories}</td>
@@ -151,8 +187,7 @@ const Calories =  () => {
               <td>{item.food_fat}</td>
               <td>{item.food_protein}</td>
               <td>
-                <Button variant = "warning" onClick={() => handleModifyItem('breakfast', index)}>Modify Entry</Button>
-                <Button variant ="danger" onClick={() => handleDeleteItem('breakfast', index)}>Delete Entry</Button>
+                <Button variant ="danger" onClick={() => handleDeleteItem('breakfast', item.food_id)}>Delete Entry</Button>
               </td>
             </tr>
           ))}
@@ -173,7 +208,7 @@ const Calories =  () => {
         </thead>
         <tbody>
           {mealItems.filter(item => item.meal == 'lunch').map((item, index) => (
-            <tr key={index}>
+            <tr key={item.food_id}>
               <td>{item.food_name}</td>
               <td>{item.food_serving}</td>
               <td>{item.food_calories}</td>
@@ -181,8 +216,7 @@ const Calories =  () => {
               <td>{item.food_fat}</td>
               <td>{item.food_protein}</td>
               <td>
-                <Button variant = "warning" onClick={() => handleModifyItem('lunch', index)}>Modify Entry</Button>
-                <Button variant ="danger" onClick={() => handleDeleteItem('lunch', index)}>Delete Entry</Button>
+                <Button variant ="danger" onClick={() => handleDeleteItem('lunch', item.food_id)}>Delete Entry</Button>
               </td>
             </tr>
           ))}
@@ -203,7 +237,7 @@ const Calories =  () => {
         </thead>
         <tbody>
           {mealItems.filter(item => item.meal == 'dinner').map((item, index) => (
-            <tr key={index}>
+            <tr key={item.food_id}>
               <td>{item.food_name}</td>
               <td>{item.food_serving}</td>
               <td>{item.food_calories}</td>
@@ -211,18 +245,18 @@ const Calories =  () => {
               <td>{item.food_fat}</td>
               <td>{item.food_protein}</td>
               <td>
-                <Button variant = "warning" onClick={() => handleModifyItem('dinner', index)}>Modify Entry</Button>
-                <Button variant ="danger" onClick={() => handleDeleteItem('dinner', index)}>Delete Entry</Button>
+                <Button variant ="danger" onClick={() => handleDeleteItem('dinner', item.food_id)}>Delete Entry</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
       <h2>Totals</h2>
       <table>
         <thead>
           <tr>
-            <th>Totals</th>
+            <th>*</th>
             <th>Calories (Kcal)</th>
             <th>Carbs (g)</th>
             <th>Fat (g)</th>
@@ -230,100 +264,51 @@ const Calories =  () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Totals</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_calories || 0);
-            }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_carbs || 0);
-            }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_fat || 0);
-            }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_protein || 0);
-            }, 0)}</td>
-          </tr>
-          <tr>
-            <td>Your Daily Goal</td>
-            <td>{goalData.calories_goal || 0}</td>
-            <td>{goalData.carbs_goal || 0}</td>
-            <td>{goalData.fat_goal || 0}</td>
-            <td>{goalData.protein_goal || 0}</td>
-          </tr>
-          <tr>
-            <td>Remaining</td>
-            <td>{goalData.calories_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_calories || 0);
-            }, 0)}</td>
-            <td>{goalData.carbs_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_carbs || 0);
-            }, 0)}</td>
-            <td>{goalData.fat_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_fat || 0);
-            }, 0)}</td>
-            <td>{goalData.protein_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + parseInt(mealItem.food_protein || 0);
-            }, 0)}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      {/* <table>
-        <thead>
-          <tr>
-            <th>Totals</th>
-            <th>Calories (Kcal)</th>
-            <th>Carbs (g)</th>
-            <th>Fat (g)</th>
-            <th>Protein (g)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Totals</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + mealItem.calories || 0;
-              }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + mealItem.carbs || 0;
-              }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + mealItem.fat || 0;
-              }, 0)}</td>
-            <td>{mealItems.reduce((acc, mealItem) => {
-              return acc + mealItem.protein || 0;
-              }, 0)}</td>
-          </tr>
-          <tr>
-            <td>Your Daily Goal</td>
-            <td>{goalData.calories_goal}</td>
+        <tr>
+            <td>Allowance</td>
+            <td>{goalData.calories_goal }</td>
             <td>{goalData.carbs_goal}</td>
-            <td>{goalData.fat_goal}</td>
-            <td>{goalData.protein_goal}</td>
+            <td>{goalData.fat_goal }</td>
+            <td>{goalData.protein_goal }</td>
+        </tr>
+          <tr>
+            <td> - Total Eaten</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_calories || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_carbs || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_fat || 0);
+            }, 0)}</td>
+            <td>{mealItems.reduce((acc, mealItem) => {
+              return acc + parseInt(mealItem.food_protein || 0);
+            }, 0)}</td>
           </tr>
           <tr>
-            <td>Reamaining</td>
+            <td> = Total Remaining</td>
             <td>{goalData.calories_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + (mealItem.calories || 0);
+              return acc + parseInt(mealItem.food_calories || 0);
             }, 0)}</td>
             <td>{goalData.carbs_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + (mealItem.carbs || 0);
+              return acc + parseInt(mealItem.food_carbs || 0);
             }, 0)}</td>
             <td>{goalData.fat_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + (mealItem.fat || 0);
+              return acc + parseInt(mealItem.food_fat || 0);
             }, 0)}</td>
             <td>{goalData.protein_goal - mealItems.reduce((acc, mealItem) => {
-              return acc + (mealItem.protein || 0);
+              return acc + parseInt(mealItem.food_protein || 0);
             }, 0)}</td>
-
           </tr>
         </tbody>
-      </table> */}
+
+      </table>
     </div>
   );
+
 };
+          
 
 export default Calories;
 

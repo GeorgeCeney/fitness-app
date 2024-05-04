@@ -23,7 +23,6 @@ router.post('/setGoal', verifyToken, async (req, res) => {
             text: 'INSERT INTO goals (user_id, start_weight, current_weight, goal_weight, weekly_goal, activity_level, calories_goal, protein_goal, carbs_goal, fat_goal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);',
             values: [userID, start_weight, current_weight, goal_weight, weekly_goal, activity_level, calories_goal, protein_goal, carbs_goal, fats_goal]
         };
-        console.log(goalSettingQuery)
         
         // Executing the query
         await pool.query(goalSettingQuery);
@@ -43,6 +42,22 @@ router.get('/getGoals', verifyToken, async(req, res) =>{
         values: [userID]
     }
     const { rows } = await pool.query(getGoalsQuery);
+    if (rows.length == 0){
+        rows.push({
+                user_id: userID,
+                start_weight: '0',
+                current_weight: '0',
+                goal_weight: '0',
+                weekly_goal: '',
+                activity_level: '',
+                calories_goal: '0',
+                protein_goal: '0',
+                carbs_goal: '0',
+                fat_goal: '0'    
+            }
+        )
+    }
+    console.log("after cleanup" + rows)
     res.json(rows)
     }catch (error){
         console.error("Error Getting Goals", error);
@@ -93,6 +108,25 @@ router.get('/getDiary',verifyToken, async (req, res) =>{
     }catch(error){
         console.error('Could not get diary',error);
         res.status(500).send('Server error, could not get Diary');
+    }
+})
+
+router.post('/deleteDiaryEntry', verifyToken, async (req, res) =>{
+    try{
+        console.log("delete function ran")
+        const userID = req.user.user_id;
+        const { id } = req.body;
+        console.log(id)
+        const deleteQuery = {
+            text: 'Delete from diary where food_id = $1 ;',
+            values: [id]
+        }
+        console.log(deleteQuery)
+        await pool.query(deleteQuery);
+        res.status(200).send('Item Removed Succesfully');
+    }catch(error){
+        console.error('Could not remove entry',error);
+        res.status(500).send('Server error, could not remove entry from Diary');
     }
 })
 
