@@ -60,14 +60,30 @@ ALTER SEQUENCE public.exercises_exercise_id_seq OWNED BY public.exercises.exerci
 --
 
 CREATE TABLE public.users (
-    user_id integer NOT NULL,
+    user_id SERIAL PRIMARY KEY,
     email character varying(255) NOT NULL,
     password_hash character varying(255) NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
-
 ALTER TABLE public.users OWNER TO postgres;
+
+---
+--- AARON'S RUNNING ROUTE WORK
+---
+
+CREATE TABLE public.runs (
+    run_id SERIAL PRIMARY KEY,
+    user_id integer NOT NULL,
+    run_name character varying(255) NOT NULL,
+    run_time float NOT NULL,
+    run_total_distnace integer NOT NULL,
+    number_of_laps integer NOT NULL,
+    run_route object NOT NULL,
+    user_weight integer NOT NULL,
+    estimated_calories_burnt float NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
