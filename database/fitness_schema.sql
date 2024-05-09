@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.exercises (
-    exercise_id integer NOT NULL,
+    exercise_id SERIAL,
     exercise_name character varying(255) NOT NULL,
     description text
 );
@@ -60,7 +60,7 @@ ALTER SEQUENCE public.exercises_exercise_id_seq OWNED BY public.exercises.exerci
 --
 
 CREATE TABLE public.users (
-    user_id integer NOT NULL,
+    user_id SERIAL NOT NULL,
     email character varying(255) NOT NULL,
     password_hash character varying(255) NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
@@ -96,14 +96,13 @@ ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 --
 
 CREATE TABLE public.workout_exercises (
-    workout_exercise_id integer NOT NULL,
+    workout_exercise_id SERIAL,
     workout_id integer NOT NULL,
     exercise_id integer NOT NULL,
     sets integer NOT NULL,
     reps integer NOT NULL,
     weight integer
 );
-
 
 ALTER TABLE public.workout_exercises OWNER TO postgres;
 
@@ -134,7 +133,7 @@ ALTER SEQUENCE public.workout_exercises_workout_exercise_id_seq OWNED BY public.
 --
 
 CREATE TABLE public.workouts (
-    workout_id integer NOT NULL,
+    workout_id SERIAL,
     user_id integer NOT NULL,
     workout_name character varying(255),
     notes text,
