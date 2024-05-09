@@ -21,9 +21,9 @@ CREATE TABLE public.runs (
     user_id integer NOT NULL,
     run_name character varying(255) NOT NULL,
     run_time float NOT NULL,
-    run_total_distnace integer NOT NULL,
+    run_total_distance integer NOT NULL,
     number_of_laps integer NOT NULL,
-    run_route object NOT NULL,
+    run_route json NOT NULL,
     user_weight integer NOT NULL,
     estimated_calories_burnt float NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
