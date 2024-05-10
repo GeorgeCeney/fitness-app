@@ -13,7 +13,7 @@ wait = WebDriverWait(driver, 10)
 def login_to_site(url, email, password):
     driver.get(url)
 
-    # Wait for the "Sign In/Register" button to be clickable and click it
+    # Wait for the "Sign In/Register" button to be clickable and click button
     sign_in_button = wait.until(
         EC.element_to_be_clickable((By.ID, "login-register-button"))
         
@@ -39,7 +39,7 @@ def login_to_site(url, email, password):
     password_field.clear()
     password_field.send_keys(password)
 
-    # Submit the form
+    # Submit login form
     submit_button = wait.until(
         EC.element_to_be_clickable((By.ID, "sign-in-button"))
     )

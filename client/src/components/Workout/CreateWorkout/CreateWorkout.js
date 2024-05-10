@@ -88,7 +88,7 @@ const CreateWorkout = () => {
       endTime: endTime.toISOString(),
       notes,
       exercises: exercises.map(ex => ({
-        exerciseId: ex.value,
+        exerciseId: ex.label,
         sets: ex.sets,
         reps: ex.reps,
         weight: ex.weight,
@@ -178,6 +178,12 @@ const CreateWorkout = () => {
               onRemove={() => handleRemoveExercise(index)}
             />
         ))}
+        </Row>
+        <Row>
+          <Form.Group controlId="notes" as={Col}>
+            <Form.Label>Notes</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder="Enter notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+          </Form.Group>
         </Row>
         <Row>
           <Col>
