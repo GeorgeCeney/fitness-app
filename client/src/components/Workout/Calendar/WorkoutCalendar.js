@@ -38,7 +38,7 @@ const WorkoutCalendar = () => {
           const formattedEvents = workouts.map(workout => {
             const start = new Date(workout.start_time);
             const end = new Date(workout.end_time);
-        
+            
             const workoutDurationMinutes = (end.getTime() - start.getTime()) / (1000 * 60);
             totalWorkoutTimeMinutes += workoutDurationMinutes;
         
@@ -47,6 +47,7 @@ const WorkoutCalendar = () => {
               start: start,
               end: end,
               exercises: workout.exercises,
+              notes: workout.notes,
             };
           });
 

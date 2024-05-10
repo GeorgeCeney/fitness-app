@@ -16,8 +16,8 @@ const WorkoutDetailsModal = ({ workout, show, onHide }) => {
           <Modal.Title>{workout.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><strong>Duration:</strong>{formatDuration(totalWorkoutTimeMinutes)}</p>
-          <p><strong>Exercises:</strong></p>
+          <p><strong>Duration: </strong>{formatDuration(totalWorkoutTimeMinutes)}</p>
+          <p><strong>Exercises: </strong></p>
           <ul>
             {workout.exercises.map((exercise, index) => (
               <li key={index}>
@@ -25,6 +25,7 @@ const WorkoutDetailsModal = ({ workout, show, onHide }) => {
               </li>
             ))}
           </ul>
+          <p><strong>Notes: </strong>{workout.notes}</p>
         </Modal.Body>
       </Modal>
     );
