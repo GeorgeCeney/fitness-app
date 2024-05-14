@@ -127,8 +127,6 @@ const Map = (props) => {
 
       const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map.current));
       var ui = H.ui.UI.createDefault(map.current, defaultLayers, 'en-US');
-      
-
 
       // CLEAR ROUTE
       clearButton.addEventListener("click", function (evt) {
@@ -138,9 +136,6 @@ const Map = (props) => {
         while(clickPoints.length > 0) { map.current.removeObject(clickPoints[0]); clickPoints.shift()}
         while(polylines.length > 0) { map.current.removeObject(polylines[0]); polylines.shift()}
       })
-
-
-
 
       // UNDO LAST POINT
       undoButton.addEventListener("click", function (evt) {
