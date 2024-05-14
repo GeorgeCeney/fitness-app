@@ -33,7 +33,7 @@ const CreateWorkout = () => {
           },
         });
         
-        return response.data.map((exercise: any) => ({
+        return response.data.map((exercise) => ({
           label: exercise.WorkOut
         }));
       } catch (error) {
