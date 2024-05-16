@@ -17,11 +17,10 @@ const CreateWorkout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const editingWorkout = location.state?.workout;
-  console.log(editingWorkout);
 
   const [workoutName, setWorkoutName] = useState(editingWorkout ? editingWorkout.title : '');
   const [startTime, setStartTime] = useState(editingWorkout ? new Date(editingWorkout.start) : new Date());
-  const [endTime, setEndTime] = useState(editingWorkout ? new Date(editingWorkout.start) : new Date());
+  const [endTime, setEndTime] = useState(editingWorkout ? new Date(editingWorkout.end) : new Date());
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [exercises, setExercises] = useState(editingWorkout ? editingWorkout.exercises.map(ex => ({
     label: ex.exercise_name,
