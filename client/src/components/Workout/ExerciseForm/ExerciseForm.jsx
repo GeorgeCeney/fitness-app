@@ -6,19 +6,19 @@ const ExerciseForm = ({ exerciseTitle, sets, reps, weight, onSetsChange, onRepsC
     <>
       <h4>{exerciseTitle}</h4>
       <Row className='mb-3'>
-          <Form.Group as={Col}>
+          <Form.Group controlId='sets' as={Col}>
             <Form.Label>Sets</Form.Label>
             <Form.Control type="number" placeholder="Sets" value={sets} onChange={onSetsChange} />
           </Form.Group>
       </Row>
       <Row className='mb-3'>
-        <Form.Group as={Col}>
+        <Form.Group controlId='reps' as={Col}>
           <Form.Label>Reps</Form.Label>
           <Form.Control type="number" placeholder="Reps" value={reps} onChange={onRepsChange} />
         </Form.Group>
       </Row>
       <Row className='mb-3'>
-       <Form.Group as={Col}>
+       <Form.Group controlId='weight' as={Col}>
           <Form.Label>Weight</Form.Label>
           <Form.Control type="number" placeholder="Weight (kg)" value={weight} onChange={onWeightChange} />
         </Form.Group>

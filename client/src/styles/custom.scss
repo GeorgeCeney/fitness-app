@@ -1,7 +1,5 @@
-// Import Inter font from Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-// Define custom color palette
 $primary: #0a6ad8;
 $secondary: #dbd8e4;
 $dark: #202530;
@@ -16,7 +14,6 @@ $navbar-dark-bg: $dark;
     --light-blue-colour: #{$lightblue};
   }
 
-// Set Inter as the default font family
 $body-font-family: 'Inter', sans-serif;
 $font-family-base: $body-font-family;
 

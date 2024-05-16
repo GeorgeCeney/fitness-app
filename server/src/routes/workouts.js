@@ -28,7 +28,7 @@ router.get('/', verifyToken, async (req, res) => {
       LEFT JOIN workout_exercises we ON w.workout_id = we.workout_id
       LEFT JOIN exercises e ON we.exercise_id = e.exercise_id
       WHERE w.user_id = $1 AND w.start_time >= $2 AND w.end_time <= $3
-      GROUP BY w.workout_id
+      GROUP BY w.workout_id, w.workout_name, w.notes, w.start_time, w.end_time
       ORDER BY w.start_time
     `, [userId, start, end]);
     res.json(workouts.rows);

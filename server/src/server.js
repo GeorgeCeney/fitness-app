@@ -19,5 +19,6 @@ app.use('/exercises', exercisesRoutes);
 app.use('/routes', routesRoutes);
 app.use('/calories', caloriesRoutes);
 
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

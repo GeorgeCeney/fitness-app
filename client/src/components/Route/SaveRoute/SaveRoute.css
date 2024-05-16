@@ -1,0 +1,16 @@
+#cancelSaveRunButton {
+  background-color: #E4340B;
+}
+
+#cancelSaveRunButton:Hover {
+  background-color: #202530;
+  border-color: #202530;
+}
+
+#saveRunButton, #cancelSaveRunButton {
+  width: 100%;
+}
+
+img {
+  width: 100%;
+}

@@ -26,9 +26,9 @@ const NavigationBar = () => {
             <Nav.Link as={NavLink} to="/workouts">Workouts</Nav.Link>
           </Nav>
           {isAuthenticated ? (
-            <Button variant="secondary" onClick={handleLogout}>Logout</Button>
+            <Button id='logout-button' variant="secondary" onClick={handleLogout}>Logout</Button>
           ) : (
-            <Button variant="secondary" onClick={() => setModalShow(true)}>Sign In / Register</Button>
+            <Button id='login-register-button' variant="secondary" onClick={() => setModalShow(true)}>Sign In / Register</Button>
           )}
           <LoginRegisterModal show={modalShow} handleClose={() => setModalShow(false)} />
         </Navbar.Collapse>
