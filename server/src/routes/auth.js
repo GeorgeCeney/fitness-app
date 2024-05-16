@@ -10,7 +10,7 @@ const secret = process.env.JWT_SECRET;
 router.post('/register', async (req, res) => {
     const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-  
+
     try {
       // Check if user exists
       const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
