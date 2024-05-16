@@ -18,6 +18,7 @@ const Map = (props) => {
     'apikey': 'da2TME2OhQPR19NeeogV8SmFqXsGDK6SXPuUEbt93hs'
   });
 
+  // Allow time for map API to load for route image capture
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -40,8 +41,8 @@ const Map = (props) => {
     return (sum)
   }
 
+  // Finds rectangle containing the route for route image capture
   function findMinMaxCoordinates(xCoordinates, yCoordinates) {
-    // Initialize variables to store min and max values
     let minX = xCoordinates[0];
     let maxX = xCoordinates[0];
     let minY = yCoordinates[0];
@@ -64,7 +65,6 @@ const Map = (props) => {
         }
     }
 
-    // Return min and max coordinates
     return {
         minX: minX,
         maxX: maxX,
@@ -73,11 +73,13 @@ const Map = (props) => {
     };
 }
 
+  // Sets the map API to look over the route for route image capture
   function setMapViewBounds(map, bounds) {
     var bbox = new H.geo.Rect(bounds.maxY, bounds.minX, bounds.minY, bounds.maxX);
     map.getViewModel().setLookAtData({bounds: bbox, zoom:16}, true);
   }
 
+  // Captures route image
   async function capture(map, ui) {
     let sumLat = 0;
     let sumLng = 0;
@@ -128,6 +130,7 @@ const Map = (props) => {
       const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map.current));
       var ui = H.ui.UI.createDefault(map.current, defaultLayers, 'en-US');
 
+
       // CLEAR ROUTE
       clearButton.addEventListener("click", function (evt) {
         route = []
@@ -136,6 +139,7 @@ const Map = (props) => {
         while(clickPoints.length > 0) { map.current.removeObject(clickPoints[0]); clickPoints.shift()}
         while(polylines.length > 0) { map.current.removeObject(polylines[0]); polylines.shift()}
       })
+
 
       // UNDO LAST POINT
       undoButton.addEventListener("click", function (evt) {
@@ -167,11 +171,12 @@ const Map = (props) => {
       // MOUSE CLICK ON MAP
       map.current.addEventListener('tap', function (evt) {
         document.getElementById("SaveRouteWarning").style.display = "none";
-        // gets coords of mouse click
+        
+        // Gets coords of mouse click
         var coord = map.current.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
         route.push(coord)
 
-        // adds circle on coords
+        // Adds circle on coords
         var clickPoint = new H.map.Circle(
           new H.geo.Point(coord.lat, coord.lng),
           10,
@@ -186,7 +191,7 @@ const Map = (props) => {
         clickPoints.push(clickPoint)
         map.current.addObject(clickPoint);
 
-        // once there are more than two points, connect the route
+        // More than two points, connect the route
         if (map.current && route.length > 1) {
           const pointToPoint = platform.getRoutingService(null, 8),
             pointToPointRequestParams = {

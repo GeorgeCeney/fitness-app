@@ -1,5 +1,4 @@
 describe('Clear button event listener', () => {
-    // Mock elements and functions
     let clearButton;
     let route, distances, routeDistance, clickPoints, polylines;
     
@@ -12,11 +11,10 @@ describe('Clear button event listener', () => {
     };
   
     beforeAll(() => {
-      // Set up our document body
       document.body.innerHTML = `<button id="clearButton"></button>`;
       clearButton = document.getElementById('clearButton');
   
-      // Initialize arrays and routeDistance
+      // Initialise arrays and routeDistance
       route = [{lat: 50, lng: 50}, {lat: 51, lng: 51}, {lat: 52, lng: 52}];
       distances = [600, 800];
       clickPoints = [{qa: 6, node: 0}, {qa: 6, node: 1}, {qa: 6, node: 2}]; // Mock clickPoints objects
@@ -42,13 +40,13 @@ describe('Clear button event listener', () => {
       // Trigger the click event
       clearButton.click();
   
+      // Check if all items were removed
       expect(route).toEqual([]);
       expect(distances).toEqual([]);
       expect(routeDistance).toBeDefined();
     });
   
-    test('removes all clickPoints and polylines from the map', () => {
-      // Assume arrays are refilled for testing
+    test('removes all waypoints and polylines from the map', () => {
       clickPoints.push({}, {});
       polylines.push({}, {});
   

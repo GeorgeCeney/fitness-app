@@ -85,7 +85,6 @@ function SaveRoute() {
           navigate('/routes');    
         } catch (error) {
           console.error('Error saving run:', error.response.data);
-          // Handle error (e.g., showing an error message)
         }
       };
 

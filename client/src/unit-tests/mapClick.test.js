@@ -5,14 +5,14 @@ describe('map tap event listener', () => {
     const map = {
         listeners: {},
         addEventListener: function(eventType, handler) {
-            // Ensure there's an array to hold the handlers for this event type
+            // array to hold the handlers for this event type
             if (!this.listeners[eventType]) {
                 this.listeners[eventType] = [];
             }
             this.listeners[eventType].push(handler);
         },
         click: function(event) {
-            // Trigger all handlers for the 'click' event with the provided event object
+            // trigger all handlers for the 'click' event
             if (this.listeners['click']) {
                 this.listeners['click'].forEach(handler => handler(event));
             }
@@ -34,11 +34,7 @@ describe('map tap event listener', () => {
     };
 
   
-    beforeAll(() => {
-      // Mock the map and platform objects
-    //   document.body.innerHTML = '<div id="Map"></div>';
-    //   map = document.getElementById('Map');
-  
+    beforeAll(() => {  
       route = [];
   
       // Mock the tap event logic

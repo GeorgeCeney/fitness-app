@@ -17,7 +17,6 @@ function calcTotalDistance(distanceList) {
 }
 
 describe('calcTotalDistance function', () => {
-    // Setup a mock for the DOM element
     beforeEach(() => {
       document.body.innerHTML = '<div id="RouteDistanceDiv"></div>';
     });
@@ -30,7 +29,15 @@ describe('calcTotalDistance function', () => {
       expect(routeDistanceDiv.innerHTML).toBe(expectedResult);
     });
   
-    test('updates RouteDistanceDiv correctly for sum equal to or more than 1000 meters', () => {
+    test('updates RouteDistanceDiv correctly for equal to 1000 meters', () => {
+      const distances = [500, 500]; // Total: 1000 meters
+      const expectedResult = '1.00km'; // Converted to kilometers
+      calcTotalDistance(distances);
+      const routeDistanceDiv = document.getElementById('RouteDistanceDiv');
+      expect(routeDistanceDiv.innerHTML).toBe(expectedResult);
+    });
+
+    test('updates RouteDistanceDiv correctly for sum more than 1000 meters', () => {
       const distances = [500, 600, 900]; // Total: 2000 meters
       const expectedResult = '2.00km'; // Converted to kilometers
       calcTotalDistance(distances);

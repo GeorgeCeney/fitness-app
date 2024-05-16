@@ -4,17 +4,15 @@ describe('SaveRun button event listener', () => {
     let route;
     const mockCapture = jest.fn();
   
-    // Setup DOM environment
     document.body.innerHTML = `
       <button id="saveRun"></button>
       <div id="SaveRouteWarning"></div>
     `;
   
-    // References to DOM elements
     const saveRouteWarning = document.getElementById("SaveRouteWarning");
   
-    // Mock for map.current and ui
-    const map = { current: {} };
+    // Mock black map and ui (do not need full mock)
+    const map = {};
     const ui = {};
   
     beforeAll(() => {
@@ -22,13 +20,12 @@ describe('SaveRun button event listener', () => {
       saveRunButton.addEventListener("click", function (evt) {
         if (route.length > 1) {
           saveRouteWarning.style.display = "none";
-          mockCapture(map.current, ui);
+          mockCapture(map, ui);
         } else {
           saveRouteWarning.style.display = "block";
         }
       });
   
-      // Initialize the route array
       route = [];
     });
   
@@ -55,6 +52,6 @@ describe('SaveRun button event listener', () => {
   
       expect(saveRouteWarning.style.display).toBe("none");
       expect(mockCapture).toHaveBeenCalledTimes(1);
-      expect(mockCapture).toHaveBeenCalledWith(map.current, ui);
+      expect(mockCapture).toHaveBeenCalledWith(map, ui);
     });
   });

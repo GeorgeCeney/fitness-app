@@ -1,5 +1,5 @@
 function findMinMaxCoordinates(xCoordinates, yCoordinates) {
-    // Initialize variables to store min and max values
+    // Initialise variables to store min and max values
     let minX = xCoordinates[0];
     let maxX = xCoordinates[0];
     let minY = yCoordinates[0];
@@ -22,7 +22,6 @@ function findMinMaxCoordinates(xCoordinates, yCoordinates) {
         }
     }
 
-    // Return min and max coordinates
     return {
         minX: minX,
         maxX: maxX,

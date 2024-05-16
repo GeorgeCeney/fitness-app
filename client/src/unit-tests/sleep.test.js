@@ -13,6 +13,6 @@ describe('sleep function', () => {
     // Expecting the delay to be within a reasonable window around the specified time.
     // Allowing some extra time for promise resolution and timeout setting
     expect(deltaTime).toBeGreaterThanOrEqual(ms);
-    expect(deltaTime).toBeLessThan(ms + 100); // Adjust the upper limit based on the accuracy you need
+    expect(deltaTime).toBeLessThan(ms + 100); 
   });
 });

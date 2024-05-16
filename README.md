@@ -1,14 +1,22 @@
-Summative Assignment:
-Portfolio - 80%
-group project - individual submission
-each person will be responsible for at least one feature
-Presentation - 20%
-group presentation
-individual marks - only for your demonstration of your feature
-each student gives 10 minutes maximum on their feature (plus 5 mins intro and conclusion (unmarked))
-Requirements:
-implement a system which uses Full Stack Web Technologies
-design a inclusive GUI
-includes database
-incorporate elements of asynchronous activities
-relates to sustainable development goal
+# BAG Fitness
+
+- `Workout / Weightlifting` - George Ceney
+
+- `Cardio / Route Planning` - Aaron Benham
+
+- `Calorie Tracking` - Basel Chaudry
+
+## Information
+Each file folder contains a `.txt` file with the full name of the author.
+
+## To Run
+Create two terminals to run both the frontend and backend servers.
+
+### Frontend
+1. `cd client` - enter the client directory
+2. `npm install` - install packages
+3. `npm start` - launch frontend application
+
+### Database
+1. `cd server` - enter the server directory
+2. `npm start` - launch database server

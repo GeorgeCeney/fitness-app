@@ -22,11 +22,10 @@ describe('Undo button event listener', () => {
     let route, distances, routeDistance, clickPoints, polylines;
   
     beforeEach(() => {
-      // Set up our document body
+      // Set up document body
       document.body.innerHTML = '<div id="RouteDistanceDiv"></div> <button id="undoButton"></button>';
       undoButton = document.getElementById('undoButton');
   
-      // Initialize arrays
       route = [{lat: 50, lng: 50}, {lat: 51, lng: 51}, {lat: 52, lng: 52}];
       distances = [600, 800];
       clickPoints = [{qa: 6, node: 0}, {qa: 6, node: 1}, {qa: 6, node: 2}]; // Mock clickPoints objects
