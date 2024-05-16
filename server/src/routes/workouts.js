@@ -82,4 +82,64 @@ router.post('/create', verifyToken, async (req, res) => {
   }
 });
 
+router.put('/:id', verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const { workoutName, startTime, endTime, exercises, notes } = req.body;
+  const userId = req.user.user_id;
+
+  try {
+    await pool.connect();
+    await pool.query('BEGIN');
+
+    await pool.query(
+      'UPDATE workouts SET workout_name = $1, start_time = $2, end_time = $3, notes = $4 WHERE workout_id = $5 AND user_id = $6',
+      [workoutName, startTime, endTime, notes, id, userId]
+    );
+
+    await pool.query('DELETE FROM workout_exercises WHERE workout_id = $1', [id]);
+
+    for (const exercise of exercises) {
+      let exerciseId;
+      const exerciseResult = await pool.query('SELECT exercise_id FROM exercises WHERE exercise_name = $1', [exercise.exerciseId]);
+      if (exerciseResult.rows.length > 0) {
+        exerciseId = exerciseResult.rows[0].exercise_id;
+      } else {
+        const newExerciseResult = await pool.query('INSERT INTO exercises (exercise_name) VALUES ($1) RETURNING exercise_id', [exercise.exerciseId]);
+        exerciseId = newExerciseResult.rows[0].exercise_id;
+      }
+      await pool.query(
+        'INSERT INTO workout_exercises (workout_id, exercise_id, sets, reps, weight) VALUES ($1, $2, $3, $4, $5)',
+        [id, exerciseId, exercise.sets, exercise.reps, exercise.weight]
+      );
+    }
+
+    await pool.query('COMMIT');
+    res.status(200).json({ message: 'Workout updated successfully.' });
+  } catch (error) {
+    await pool.query('ROLLBACK');
+    console.error('Error in transaction', error.stack);
+    res.status(500).send('Error updating workout');
+  }
+});
+
+router.delete('/:id', verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.user_id;
+
+  try {
+    await pool.connect();
+    await pool.query('BEGIN');
+
+    await pool.query('DELETE FROM workout_exercises WHERE workout_id = $1', [id]);
+    await pool.query('DELETE FROM workouts WHERE workout_id = $1 AND user_id = $2', [id, userId]);
+
+    await pool.query('COMMIT');
+    res.status(200).json({ message: 'Workout deleted successfully.' });
+  } catch (error) {
+    await pool.query('ROLLBACK');
+    console.error('Error in transaction', error.stack);
+    res.status(500).send('Error deleting workout');
+  }
+});
+
 module.exports = router;

@@ -43,6 +43,7 @@ const WorkoutCalendar = () => {
             totalWorkoutTimeMinutes += workoutDurationMinutes;
         
             return {
+              id: workout.workout_id,
               title: workout.workout_name,
               start: start,
               end: end,
