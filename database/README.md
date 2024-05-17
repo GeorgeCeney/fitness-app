@@ -49,3 +49,29 @@ CREATE TABLE public.workouts (
     start_time timestamp without time zone,
     end_time timestamp without time zone
 );
+
+CREATE TABLE public.diary (
+    user_id INT,
+    date DATE,
+    meal VARCHAR(50),
+    food_name VARCHAR(100),
+    food_serving DECIMAL(10,2),
+    food_calories INT,
+    food_carbs DECIMAL(10,2),
+    food_protein DECIMAL(10,2),
+    food_fat DECIMAL(10,2),
+    food_id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE public.goals (
+    user_id INT,
+    start_weight DECIMAL(10,2),
+    current_weight DECIMAL(10,2),
+    goal_weight DECIMAL(10,2),
+    weekly_goal DECIMAL(10,2),
+    activity_level VARCHAR(50),
+    calories_goal INT,
+    protein_goal DECIMAL(10,2),
+    carbs_goal DECIMAL(10,2),
+    fat_goal DECIMAL(10,2),
+);

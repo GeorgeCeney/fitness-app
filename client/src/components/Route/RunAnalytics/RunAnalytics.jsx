@@ -45,11 +45,12 @@ const RunAnalytics = () => {
     // Preprocess data to ensure there's an entry for each day, filling in missing days with 0 distance
     const distanceData = {};
     const weightData = {};
-    // need to add 1 as the graph doesn't process the last date
+    
     let graphEndDate = new Date()
-    graphEndDate.setDate(endDate.getDate()+1)
+    graphEndDate.setDate(endDate.getDate())
 
-    for (let d = new Date(startDate); d <= graphEndDate; d.setDate(d.getDate() + 1)) {
+    // Need to add 1 as the graph doesn't process the last date
+    for (let d = new Date(startDate); d <= graphEndDate; d.setDate(d.getDate()+1)) {
         distanceData[d.toISOString().split('T')[0]] = 0;
         weightData[d.toISOString().split('T')[0]] = NaN;
     }
@@ -71,7 +72,6 @@ const RunAnalytics = () => {
     const distances = Object.values(distanceData);
     const weight = Object.values(weightData);
 
-    console.log(weight)
 
     function sumRunData(runs) {
         let distanceSum = 0;

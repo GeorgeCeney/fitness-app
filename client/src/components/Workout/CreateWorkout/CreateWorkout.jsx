@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './CreateWorkout.css';
@@ -15,13 +15,22 @@ const backendUrl = "http://localhost:3001/";
 const CreateWorkout = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
-  const [workoutName, setWorkoutName] = useState('');
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const location = useLocation();
+  const editingWorkout = location.state?.workout;
+
+  const [workoutName, setWorkoutName] = useState(editingWorkout ? editingWorkout.title : '');
+  const [startTime, setStartTime] = useState(editingWorkout ? new Date(editingWorkout.start) : new Date());
+  const [endTime, setEndTime] = useState(editingWorkout ? new Date(editingWorkout.end) : new Date());
   const [selectedExercise, setSelectedExercise] = useState(null);
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState(editingWorkout ? editingWorkout.exercises.map(ex => ({
+    label: ex.exercise_name,
+    value: ex.exercise_id,
+    sets: ex.sets,
+    reps: ex.reps,
+    weight: ex.weight
+  })) : []);
   const [exerciseOptions, setExerciseOptions] = useState([]);
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState(editingWorkout ? editingWorkout.notes : '');
 
   useEffect(() => {
 
@@ -33,7 +42,7 @@ const CreateWorkout = () => {
           },
         });
         
-        return response.data.map((exercise: any) => ({
+        return response.data.map((exercise) => ({
           label: exercise.WorkOut
         }));
       } catch (error) {
@@ -96,12 +105,22 @@ const CreateWorkout = () => {
     };
   
     try {
-      const response = await axios.post(`${backendUrl}workouts/create`, workoutData, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      alert("Workout saved successfully");
+        if(editingWorkout) {
+          await axios.put(`${backendUrl}workouts/${editingWorkout.id}`, workoutData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+            alert("Workout updated successfully");
+        } else {
+          await axios.post(`${backendUrl}workouts/create`, workoutData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+          alert("Workout saved successfully");
+      
+        };
       navigate('/workouts');    
     } catch (error) {
       const errorMessage = error.response.data.message;
@@ -111,7 +130,7 @@ const CreateWorkout = () => {
 
   return (
     <Container className="create-workout-container my-4">
-      <h1>Create Workout</h1>
+      <h1>{editingWorkout ? 'Update Workout' : 'Create Workout'}</h1>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group controlId="workoutName" as={Col}>
@@ -187,7 +206,7 @@ const CreateWorkout = () => {
         </Row>
         <Row>
           <Col>
-            <Button id='save-workout-button' variant="primary" type="submit">Save Workout</Button>
+            <Button id='save-workout-button' variant="primary" type="submit">{editingWorkout ? 'Update Workout' : 'Save Workout'}</Button>
           </Col>
         </Row>
       </Form>
