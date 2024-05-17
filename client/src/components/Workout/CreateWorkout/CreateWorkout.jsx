@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './CreateWorkout.css';
@@ -10,41 +10,47 @@ import ExerciseForm from '../ExerciseForm/ExerciseForm';
 import { useAuth } from "../../AuthContext/AuthContext";
 
 
-const backendUrl = "http://localhost:3001/workouts";
+const backendUrl = "http://localhost:3001/";
 
 const CreateWorkout = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
-  const [workoutName, setWorkoutName] = useState('');
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const location = useLocation();
+  const editingWorkout = location.state?.workout;
+
+  const [workoutName, setWorkoutName] = useState(editingWorkout ? editingWorkout.title : '');
+  const [startTime, setStartTime] = useState(editingWorkout ? new Date(editingWorkout.start) : new Date());
+  const [endTime, setEndTime] = useState(editingWorkout ? new Date(editingWorkout.end) : new Date());
   const [selectedExercise, setSelectedExercise] = useState(null);
-  const [exercises, setExercises] = useState([]);
-  const [exerciseOptions, setExerciseOptions] = useState([]); // Options for the select dropdown
-  const [notes, setNotes] = useState('');
+  const [exercises, setExercises] = useState(editingWorkout ? editingWorkout.exercises.map(ex => ({
+    label: ex.exercise_name,
+    value: ex.exercise_id,
+    sets: ex.sets,
+    reps: ex.reps,
+    weight: ex.weight
+  })) : []);
+  const [exerciseOptions, setExerciseOptions] = useState([]);
+  const [notes, setNotes] = useState(editingWorkout ? editingWorkout.notes : '');
 
   useEffect(() => {
 
-    // const fetchExercises = async () => {
-    //   try {
-    //     const response = await axios.get(`${backendUrl}/exercises`);
-    //     return response.data.map((exercise: any) => ({
-    //       label: exercise.WorkOut
-    //     }));
-    //   } catch (error) {
-    //     console.error('Error fetching exercises:', error);
-    //     return [];
-    //   }
-    // };
-
-    // Mocking the fetchExercises call
     const fetchExercises = async () => {
-      return [
-        { value: 'exercise1', label: 'Exercise 1' },
-        { value: 'exercise2', label: 'Exercise 2' },
-        { value: 'exercise3', label: 'Exercise 3' },
-      ];
+      try {
+        const response = await axios.get(`${backendUrl}exercises`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        
+        return response.data.map((exercise) => ({
+          label: exercise.WorkOut
+        }));
+      } catch (error) {
+        console.error('Error fetching exercises:', error);
+        return [];
+      }
     };
+
     fetchExercises().then(setExerciseOptions);
   }, []);
 
@@ -67,17 +73,31 @@ const CreateWorkout = () => {
     setExercises(updatedExercises);
   };
 
+  const isFormFilled = () => {
+    return (
+      workoutName !== '' &&
+      startTime !== '' &&
+      endTime !== '' &&
+      exercises.length > 0 &&
+      exercises.every(exercise => exercise.sets !== '' && exercise.reps !== '' && exercise.weight !== '')
+    );
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Format the workout data
+    
+    if (!isFormFilled()) {
+      alert('Please fill out all fields');
+      return;
+    }
+
     const workoutData = {
       workoutName,
       startTime: startTime.toISOString(),
       endTime: endTime.toISOString(),
       notes,
       exercises: exercises.map(ex => ({
-        exerciseId: ex.value,
+        exerciseId: ex.label,
         sets: ex.sets,
         reps: ex.reps,
         weight: ex.weight,
@@ -85,21 +105,32 @@ const CreateWorkout = () => {
     };
   
     try {
-      const response = await axios.post(`${backendUrl}/create`, workoutData, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log('Workout saved:', response.data);
+        if(editingWorkout) {
+          await axios.put(`${backendUrl}workouts/${editingWorkout.id}`, workoutData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+            alert("Workout updated successfully");
+        } else {
+          await axios.post(`${backendUrl}workouts/create`, workoutData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+          alert("Workout saved successfully");
+      
+        };
       navigate('/workouts');    
     } catch (error) {
-      console.error('Error saving workout:', error.response.data);
-      // Handle error (e.g., showing an error message)
+      const errorMessage = error.response.data.message;
+      alert(errorMessage);
     }
   };
 
   return (
     <Container className="create-workout-container my-4">
+      <h1>{editingWorkout ? 'Update Workout' : 'Create Workout'}</h1>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group controlId="workoutName" as={Col}>
@@ -111,6 +142,7 @@ const CreateWorkout = () => {
           <Form.Group controlId="startTime" as={Col}>
             <Form.Label>Start Time</Form.Label>
             <DatePicker
+              id='start-time-picker'
               selected={startTime}
               onChange={date => setStartTime(date)}
               showTimeSelect
@@ -124,6 +156,7 @@ const CreateWorkout = () => {
           <Form.Group controlId="endTime" as={Col}>
             <Form.Label>End Time</Form.Label>
             <DatePicker
+              id='end-time-picker'
               selected={endTime}
               onChange={date => setEndTime(date)}
               showTimeSelect
@@ -147,7 +180,7 @@ const CreateWorkout = () => {
         </Row>
         <Row className="mb-3">
           <Col>
-            <Button onClick={handleAddExercise} disabled={!selectedExercise}>Add Exercise</Button>
+            <Button id='add-exercise-button' onClick={handleAddExercise} disabled={!selectedExercise}>Add Exercise</Button>
           </Col>
         </Row>
         <Row>
@@ -166,8 +199,14 @@ const CreateWorkout = () => {
         ))}
         </Row>
         <Row>
+          <Form.Group controlId="notes" as={Col}>
+            <Form.Label>Notes</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder="Enter notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+          </Form.Group>
+        </Row>
+        <Row>
           <Col>
-            <Button variant="primary" type="submit">Save Workout</Button>
+            <Button id='save-workout-button' variant="primary" type="submit">{editingWorkout ? 'Update Workout' : 'Save Workout'}</Button>
           </Col>
         </Row>
       </Form>
