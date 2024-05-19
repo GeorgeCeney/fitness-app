@@ -167,7 +167,7 @@ const RunAnalytics = () => {
                         <Card.Title className='mb-4'>All Time Weight Progress</Card.Title>
                         <div className="stats mt-3 text-center">
                             <Row className="mb-4">
-                                <div className="stat-value font-weight-bold display-4">{caloriesSum}</div>
+                                <div className="stat-value font-weight-bold display-4">{caloriesSum.toFixed(2)}</div>
                                 <div className="stat-label">Total Estimated Calories Burnt</div>
                             </Row>
                             <Row className="mb-4">
