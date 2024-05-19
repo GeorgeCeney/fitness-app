@@ -21,6 +21,7 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
 
     useEffect(() => {
         const fetchGoalData = async () => {
+            console.log("Update Goals Modal Running")
           const backendUrl = "http://localhost:3001/calories/getGoals";
           try {
             const response = await axios.get(backendUrl, {
@@ -44,7 +45,7 @@ const UpdateGoalsModal = ({ show, handleClose }) => {
         // IF GOAL DATA IS NULLL FIX IT UP
     
     
-      }, []);
+      }, [show]);
 
     const handleChange = () => {
         const newData = {

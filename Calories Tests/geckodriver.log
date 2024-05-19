@@ -1,0 +1,79 @@
+1716067594435	geckodriver	INFO	Listening on 127.0.0.1:52285
+1716067597510	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52286" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofilevmJqMC"
+1716067597882	geckodriver	INFO	Listening on 127.0.0.1:52294
+1716067603442	geckodriver	INFO	Listening on 127.0.0.1:52307
+1716067606999	geckodriver	INFO	Listening on 127.0.0.1:52316
+1716067610055	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52317" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofileUYvE01"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1716067610792	Marionette	INFO	Marionette enabled
+1716067610900	Marionette	INFO	Listening on port 52328
+WebDriver BiDi listening on ws://127.0.0.1:52317
+Read port: 52328
+1716067611211	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:52317/devtools/browser/719e9bb7-7550-40ea-aac7-7d53bd84ef66
+1716067617945	Marionette	INFO	Stopped listening on port 52328
+Dynamically enable window occlusion 1
+1716067732534	geckodriver	INFO	Listening on 127.0.0.1:52452
+1716067735601	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52453" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofileCUSMuJ"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1716067735919	Marionette	INFO	Marionette enabled
+1716067735983	Marionette	INFO	Listening on port 52461
+WebDriver BiDi listening on ws://127.0.0.1:52453
+Read port: 52461
+1716067736154	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:52453/devtools/browser/88fbc15a-1121-4368-afc4-2a457916fdb7
+1716067739923	Marionette	INFO	Stopped listening on port 52461
+JavaScript warning: http://localhost:3000/static/js/bundle.js, line 154398: Script terminated by timeout at:
+dispatchEvent@http://localhost:3000/static/js/bundle.js:154398:11
+
+Dynamically enable window occlusion 1
+1716067743434	geckodriver	INFO	Listening on 127.0.0.1:52499
+1716067746495	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52500" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofiledx7NJ4"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1716067746831	Marionette	INFO	Marionette enabled
+1716067746936	Marionette	INFO	Listening on port 52508
+WebDriver BiDi listening on ws://127.0.0.1:52500
+Read port: 52508
+1716067747133	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:52500/devtools/browser/d5ef46c5-facf-4d39-af60-17842177909a
+1716067751395	Marionette	INFO	Stopped listening on port 52508
+Dynamically enable window occlusion 1
+1716067755697	geckodriver	INFO	Listening on 127.0.0.1:52547
+1716067758748	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52548" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofile3jHqCP"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1716067759050	Marionette	INFO	Marionette enabled
+1716067759115	Marionette	INFO	Listening on port 52594
+WebDriver BiDi listening on ws://127.0.0.1:52548
+Read port: 52594
+1716067759308	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:52548/devtools/browser/acb37346-d5de-4dea-8d76-7fb83ac1aa95
+1716067763961	Marionette	INFO	Stopped listening on port 52594
+JavaScript warning: http://localhost:3000/static/js/bundle.js, line 116786: Script terminated by timeout at:
+default@http://localhost:3000/static/js/bundle.js:116786:68
+./node_modules/dom-helpers/esm/transitionEnd.js/emulateTransitionEnd/handle<@http://localhost:3000/static/js/bundle.js:116753:21
+
+Dynamically enable window occlusion 1
+1716067767550	geckodriver	INFO	Listening on 127.0.0.1:52714
+1716067770586	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "52715" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\Basel\\AppData\\Local\\Temp\\rust_mozprofileV2sMXl"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+Dynamically enable window occlusion 0
+1716067771000	Marionette	INFO	Marionette enabled
+1716067771133	Marionette	INFO	Listening on port 52759
+WebDriver BiDi listening on ws://127.0.0.1:52715
+Read port: 52759
+1716067771410	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:52715/devtools/browser/799a7925-80f7-40df-815e-1a5068878527
+1716067776965	Marionette	INFO	Stopped listening on port 52759
+JavaScript warning: http://localhost:3000/static/js/bundle.js, line 154398: Script terminated by timeout at:
+dispatchEvent@http://localhost:3000/static/js/bundle.js:154398:11
+
+Dynamically enable window occlusion 1
