@@ -58,7 +58,7 @@ const AddFoodModal = ({ show, handleClose, onAddItem }) => {
 
             console.log(newData);
             // setFoodData(newData)
-            onAddItem(newData)
+            // onAddItem(newData)
             // API send to add data to db
             const backendUrl = "http://localhost:3001/calories/updateDiary";
             try {

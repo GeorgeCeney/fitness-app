@@ -63,7 +63,7 @@ const QuickAddItemModal = ({ show, handleClose, onAddItem }) => {
         console.log(newData)
         setMacros(newData)
 
-        onAddItem(newData)
+        // onAddItem(newData)
 
         /*
         SEND API Request Saving this data, or save data as part of Calories.jsx file in the handleQuickAddItem function

@@ -33,8 +33,6 @@ const Calories =  () => {
 
     const [mealItems, setMealItems] = useState([])
 
-    
-
 
     const [totals, setTotals] = useState({
         calories: 0,
@@ -43,15 +41,9 @@ const Calories =  () => {
         protein: 0
     });
 
-    const handleQuickAddItem = (quickAddMacrosData) => {
-      // Append new data to existing array
-      // setQuickAddData([...quickAddData, quickAddMacrosData]);
-    
-      // Add updated data to breakfastItems
-      setMealItems([...mealItems, quickAddMacrosData])
-      // setMealItems([...mealItems, quickAddMacrosData]);
-    
-    };
+    // const handleQuickAddItem = (quickAddMacrosData) => {
+    //   setMealItems([...mealItems, quickAddMacrosData])    
+    // };
 
     useEffect(() =>{
       const getFoodData = async () => {
@@ -71,10 +63,11 @@ const Calories =  () => {
       }
 
       getFoodData();
-    }, [selectedDate]);
+    }, [selectedDate, foodAddModalShow, quickAddModalShow]);
 
     useEffect(() => {
       const fetchGoalData = async () => {
+        console.log("Fetch Goal Data useEffect Ran")
         const backendUrl = "http://localhost:3001/calories/getGoals";
         try {
           const response = await axios.get(backendUrl, {
@@ -82,31 +75,29 @@ const Calories =  () => {
               Authorization: `${token}`
             }
           });
-          if (!response.data){
-            setShowGoalModal(true)
-            alert("No Goal Data, please complete form!")
-          }else{
-            const responseData = response.data
-            // console.log(response.data)
+          const responseValues = response.data[0];
+          console.log("The response data is " + JSON.stringify(response.data[0].calories_goal));
+  
+          if (response.data[0].calories_goal == "0") {
+            alert("No Goal Data, please complete form!");
+            setShowGoalModal(true);
+          } else {
+            const responseData = response.data;
             setGoalData(responseData[response.data.length - 1]);
-            // console.log(responseData[response.data.length - 1]);
           }
-
+  
         } catch (error) {
           console.error('Error fetching goal data:', error);
         }
       };
   
-      fetchGoalData(); 
-      // If Goal Data is null set to 0 
-      console.log("The goal data is" + goalData)
-      if(!goalData){
-
-        setShowGoalModal(true)
-
-    }
+      fetchGoalData();
   
-    }, []);
+      if (!goalData) {
+        setShowGoalModal(true);
+      }
+  
+    }, [modalShow]);
 
   const handleDateChange = (e) => {
     // setDate(e.target.value);
@@ -160,12 +151,12 @@ const Calories =  () => {
       </div>
       <div className="actions">
         <Button variant="secondary" onClick={() => setFoodAddModalShow(true)}>Add Food</Button>
-        <AddFoodModal show={foodAddModalShow} handleClose={() => setFoodAddModalShow(false)} onAddItem={handleQuickAddItem}></AddFoodModal>
+        <AddFoodModal show={foodAddModalShow} handleClose={() => setFoodAddModalShow(false)} ></AddFoodModal>
         <Button variant="secondary" onClick={() => setQuickAddModalShow(true)}>Quick Add</Button>
-        <QuickAddItemModal show={quickAddModalShow} handleClose={() => setQuickAddModalShow(false)} onAddItem={handleQuickAddItem}></QuickAddItemModal>
+        <QuickAddItemModal show={quickAddModalShow} handleClose={() => setQuickAddModalShow(false)}></QuickAddItemModal>
       </div>
       <h2>Breakfast Items</h2>
-      <table>
+      <table id='breakfast-table'>
         <thead>
           <tr>
             <th>Item</th>
