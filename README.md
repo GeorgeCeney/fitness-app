@@ -19,4 +19,5 @@ Create two terminals to run both the frontend and backend servers.
 
 ### Database
 1. `cd server` - enter the server directory
-2. `npm start` - launch database server
+2. `npm install` - install packages
+3. `npm start` - launch database server
